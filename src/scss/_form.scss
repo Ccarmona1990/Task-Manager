@@ -1,0 +1,37 @@
+.simpleForm {
+  @include center();
+  margin-top: 1vh;
+  padding: 10vh;
+}
+
+#textForm {
+  border: 1px solid map-get($map: $primary-greys, $key: "g4");
+  height: 2rem;
+  width: 20rem;
+}
+
+#checkbox {
+  margin: 0 10px;
+  &:checked {
+    width: 25px;
+    height: 25px;
+    background-color: map-get($map: $primary-blues, $key: "b4");
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+  &:not(:checked) {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+}

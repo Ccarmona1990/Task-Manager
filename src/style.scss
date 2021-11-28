@@ -1,0 +1,46 @@
+@import "./scss/resets";
+@import "./scss/center";
+@import "./scss/variables";
+@import "./scss/btns";
+@import "./scss/PNHs";
+@import "./scss/form";
+@import "./scss/drag&drop";
+@import "./scss/notification";
+
+body {
+  margin: 10vw;
+  background-color: darksalmon;
+}
+
+.container {
+  @include center();
+  margin-top: 2vh;
+  padding: 10vh;
+}
+
+.users {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.info {
+  padding: 13px 0;
+  margin-left: 10px;
+}
+
+.person {
+  display: flex;
+}
+
+.profile {
+  &:active,
+  &:link,
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+
+
+
+

@@ -1,0 +1,122 @@
+/*
+=============== 
+Fonts
+===============
+*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Montserrat&display=swap");
+
+/* colors */
+
+/* dark shades of primary color*/
+$primary-blues: (
+  "b1": hsl(205, 100%, 96%),
+  "b2": hsl(205, 90%, 88%),
+  "b3": hsl(205, 86%, 81%),
+  "b4": hsl(205, 90%, 76%),
+  "b5": hsl(205, 89%, 70%),
+  "b6": #49a6e9,
+  "b7": hsl(205, 63%, 48%),
+  "b8": hsl(205, 72%, 37%),
+  "b9": hsl(205, 77%, 27%),
+  "b10": hsl(205, 86%, 17%),
+);
+
+/* Other Primary colors*/
+$primary-violets: (
+  "v1": #e2e0ff,
+  "v2": #c1beff,
+  "v3": #a29dff,
+  "v4": #837dff,
+  "v5": #645cff,
+  "v6": #504acc,
+  "v7": #3c3799,
+  "v8": #282566,
+  "v9": #141233,
+);
+/* grey */
+$primary-greys: (
+  "g1": #f8fafc,
+  "g2": #f1f5f9,
+  "g3": #e2e8f0,
+  "g4": #cbd5e1,
+  "g5": #94a3b8,
+  "g6": #64748b,
+  "g7": #475569,
+  "g8": #334155,
+  "g9": #1e293b,
+  "g10": #0f172a,
+);
+/* darkest grey - used for headings */
+$heading-grey: (
+  "g1": hsl(209, 28%, 39%),
+  "g2": hsl(209, 34%, 30%),
+  "g3": hsl(211, 39%, 23%),
+  "g4": hsl(209, 61%, 16%),
+);
+/* grey used for paragraphs */
+$paragraph-grey: (
+  "g1": hsl(210, 36%, 96%),
+  "g2": hsl(212, 33%, 89%),
+  "g3": hsl(210, 31%, 80%),
+  "g4": hsl(211, 27%, 70%),
+  "g5": hsl(209, 23%, 60%),
+  "g6": hsl(210, 22%, 49%),
+);
+
+$primary-dark: (
+  "red1": hsl(360, 67%, 44%),
+  "red2": rgb(146, 15, 15),
+  "maroon": #8f232c,
+  "green1": hsl(125, 67%, 44%),
+  "green2": #0f5132,
+);
+$primary-light: (
+  "red": hsl(360, 71%, 66%),
+  "pink": #f8d7da,
+  "green": hsl(125, 71%, 66%),
+  "gold": #c59d5f,
+  "black": #222,
+  "aqua": #d1e7dd,
+);
+
+/* fonts  */
+$primary-fonts: (
+  "f1": "Roboto",
+  "f2": "Open Sans",
+  "f3": "Nunito",
+  "ss": sans-serif,
+);
+
+$smallText: 0.7em;
+/* rest of the vars */
+$backgroundColor: map-get(
+  $map: $primary-greys,
+  $key: "p1",
+);
+$textColor: map-get(
+  $map: $primary-greys,
+  $key: "p9",
+);
+$borderRadius: 0.25rem;
+$radius: 0.5rem;
+$max-width: 1120px;
+$fixed-width: 620px;
+$transition1: all 0.3s linear;
+$transition2: 0.3s ease-in-out all;
+$letterSpacing: 1px;
+$spacing: 0.25rem;
+
+/* box shadow*/
+
+$shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-5: 7px 8px 9px -2px rgba(0,0,0,0.75);
+$light-shadow: 0 5px 15px rgba(0, 0, 0, 0.295);
+$dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+$box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);

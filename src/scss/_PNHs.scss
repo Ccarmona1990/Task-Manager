@@ -1,0 +1,18 @@
+p {
+  color: map-get($map: $paragraph-grey, $key: "g8");
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: map-get($map: $heading-grey, $key: "g1");
+  font-family: map-get($map: $primary-fonts, $key: "f1"), sans-serif;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 8rem;
+}
