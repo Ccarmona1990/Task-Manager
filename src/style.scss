@@ -6,38 +6,19 @@
 @import "./scss/form";
 @import "./scss/drag&drop";
 @import "./scss/notification";
+@import "./scss/Todo";
 
 body {
-  margin: 10vw;
-  background-color: darksalmon;
+  margin: 0 10vw;
+  background: rgb(63,94,251);
+  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(189,70,252,0.6976540616246498) 100%);
+;
 }
 
 .container {
   @include center();
-  margin-top: 2vh;
+  margin-top: 1vh;
   padding: 10vh;
-}
-
-.users {
-  display: grid;
-  grid-template-columns: auto auto auto;
-}
-
-.info {
-  padding: 13px 0;
-  margin-left: 10px;
-}
-
-.person {
-  display: flex;
-}
-
-.profile {
-  &:active,
-  &:link,
-  &:visited {
-    text-decoration: none;
-  }
 }
 
 

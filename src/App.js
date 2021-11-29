@@ -1,9 +1,9 @@
-import GithubUsers from "./GithubUsers";
+import Todo from "./Todo";
 
 
 function App() {
   return (
-      <GithubUsers/>
+      <Todo/>
   );
 }
 

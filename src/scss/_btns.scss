@@ -25,6 +25,7 @@
   margin: 1rem 0.5rem;
   padding: 0.4rem 1rem;
   border: map-get($map: $primary-greys, $key: "g1");
+  border-radius: 0.5rem;
   background-color: map-get($map: $primary-greys, $key: "g1");
   color: map-get($map: $primary-blues, $key: "p4");
   letter-spacing: $letterSpacing;
@@ -33,6 +34,7 @@
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   cursor: pointer;
   font-weight: 800;
+
   &:hover {
     color: map-get($map: $primary-blues, $key: "p6");
   }
