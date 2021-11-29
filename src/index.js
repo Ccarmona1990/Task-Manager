@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.scss';
 import reportWebVitals from './reportWebVitals';
-import App from './App';
+import Todo from './Todo';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Todo />
   </React.StrictMode>,
   document.getElementById('root')
 );
