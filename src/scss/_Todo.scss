@@ -66,7 +66,6 @@ nav {
   &:hover{
     background-color: map-get($map: $primary-greys, $key: 'g3' );
     border-radius: 0.5rem;
-    transform: map-get($map: $scale, $key:'s1' );
   }
 }
 
