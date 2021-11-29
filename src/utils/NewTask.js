@@ -1,8 +1,6 @@
 import React from 'react'
-import { useDrag } from '../CostumHooks/useDrag';
 
 const NewTask = ({state, dispatch, setTask}) => {
-    const {startDrag, endDrag, overDrag} = useDrag('dragging','task');
 
     const handleDelete = (id)=>{
         const newtasks = state.tasks.filter((t)=>{
@@ -30,20 +28,16 @@ const NewTask = ({state, dispatch, setTask}) => {
     }
     return (
         <section 
-                className='tasksContainer'
-                onDragOver={overDrag}>
+                className='tasksContainer'>
             {state.tasks.map((newTask)=>{
                 const {id, task} = newTask;
                 return (
                     <div 
                     key={id} 
-                    id={id} 
-                    draggable='true'
+                    id={id}
                     className='task'
-                    onDragStart={startDrag}
-                    onDragEnd={endDrag}
                     >
-                        <aside>
+                        <aside >
                             <input type='checkbox' 
                             name={task}
                             id='checkbox'
@@ -51,7 +45,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                             />
                         <h4>{task}</h4>
                         </aside>
-                        <aside>
+                        <aside className='nTaskBtns'>
                         <button 
                         className="link-btn"
                         onClick={()=>handleEdit(id, task)}
