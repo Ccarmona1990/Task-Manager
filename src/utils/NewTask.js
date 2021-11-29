@@ -1,4 +1,6 @@
 import React from 'react'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 
 const NewTask = ({state, dispatch, setTask}) => {
 
@@ -45,14 +47,19 @@ const NewTask = ({state, dispatch, setTask}) => {
                             />
                         <h4>{task}</h4>
                         </aside>
-                        <aside className='nTaskBtns'>
+                        <aside className='nTaskBtnContainer'>
                         <button 
-                        className="link-btn"
+                        className="nTaskBtn"
                         onClick={()=>handleEdit(id, task)}
-                        >edit</button>
-                        <button className="link-btn"
+                        ><FontAwesomeIcon icon={faEdit}
+                        color='darkgreen'
+                        size='1x'/></button>
+
+                        <button className="nTaskBtn"
                         onClick={()=>handleDelete(id)}
-                        >delete</button>
+                        ><FontAwesomeIcon icon={faTrash}
+                        color='red'
+                        size='1x'/></button>
                         </aside>
                     </div>
                 )

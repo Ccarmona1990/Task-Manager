@@ -1,10 +1,11 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faEdit} from '@fortawesome/free-solid-svg-icons'
+import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
 
-const TodoForm = ({handleSubmit, setTask, task, ref, state}) => {
+const TodoForm = ({handleSubmit, setTask, task, state}) => {
 
     const placeholder = `Add a task`;
+    const handleCalendar = ()=>{}
     
     return (
         <div className='formContainer'>
@@ -20,6 +21,11 @@ const TodoForm = ({handleSubmit, setTask, task, ref, state}) => {
                 placeholder={placeholder}
                 onChange={(e)=>{setTask(e.target.value)}}>
                 </input>
+                <button 
+                type='button'
+                className='calendarBtn '
+                onClick={handleCalendar}
+                ><FontAwesomeIcon icon={faCalendarAlt} size='2x'></FontAwesomeIcon></button>
                 
             </form>
         </div>
