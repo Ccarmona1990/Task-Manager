@@ -103,7 +103,8 @@ $textColor: map-get(
 $scale: (
   "s1": scale(1.005),
   "s2": scale(1.05),
-  "s3": scale(1.5),
+  's3': scale(1.2),
+  "s4": scale(1.5)
 );
 $borderRadius: 0.25rem;
 $radius: 0.5rem;
