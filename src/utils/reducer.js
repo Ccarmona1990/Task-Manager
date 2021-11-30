@@ -16,7 +16,14 @@ const reducer = (status, action)=>{
         case 'DELETE_TASK':
             return {
                 ...status,
-                tasks: action.payload1,
+                tasks: action?.deleteUncompletedTaskPayload,
+                isNotificationShowing: true,
+                notificationMessage: "Task Deleted"
+            }
+        case 'DELETE_COMPLETEDTASK':
+            return {
+                ...status,
+                completedTasks: action?.deleteCompletedTaskPayload,
                 isNotificationShowing: true,
                 notificationMessage: "Task Deleted"
             }
@@ -34,18 +41,28 @@ const reducer = (status, action)=>{
                 notificationMessage: "Edit Started "
             }
         case 'END_EDIT':
-            return {
-                ...status,
-                isEdit: false,
-                isNotificationShowing: true,
-                notificationMessage: "Item Edited"
+            if(status.isTaskCompleted){
+                return {
+                    ...status,
+                    completedTasks: action.editedTaskPayload,
+                    isEdit: false,
+                    isNotificationShowing: true,
+                    notificationMessage: "Item Edited"
+                }
+            } else if (!status.isTaskCompleted){
+                return {
+                    ...status,
+                    tasks: action.editedTaskPayload,
+                    isEdit: false,
+                    isNotificationShowing: true,
+                    notificationMessage: "Item Edited"
+                }
             }
         case 'COMPLETED_TASK':
-            console.log(action.payload3);
             return {
                 ...status,
-                tasks: [action.payload3[0]],
-                completedTasks: [action.payload3[1]],
+                tasks: action.uncompletedTaskPayload,
+                completedTasks: [...status.completedTasks, action.completedTaskPayload],
                 isNotificationShowing: true,
                 notificationMessage: "Task Completed",
                 isTaskCompleted: true
@@ -53,14 +70,13 @@ const reducer = (status, action)=>{
         case 'UNCOMPLETED_TASK':
             return {
                 ...status,
-                tasks: [...status.tasks, action.payload4[1]],
-                completedTasks: [action.payload4[0]],
+                tasks: [...status.tasks, action.uncompletedTaskPayload],
+                completedTasks: action.completedTaskPayload,
                 isTaskCompleted: false
             }
         default:
             throw new Error('No matching action type')
     }
-    
 }
 
 export default reducer

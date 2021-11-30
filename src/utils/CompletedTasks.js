@@ -2,59 +2,63 @@ import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 
-const NewTask = ({state, dispatch, setTask}) => {
-
+const CompletedTasks = ({state, dispatch, setTask}) => {
     const handleDelete = (id)=>{
-        const newtasks = state.tasks.filter((t)=>{
+        const newtasks = state.completedTasks.filter((t)=>{
             if(t.id !== id){
                 return t;
             }
         })
-        dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: newtasks })
+        dispatch({type: 'DELETE_COMPLETEDTASK', deleteCompletedTaskPayload: newtasks })
     }
     const handleEdit = (id, index)=>{
         const currentTaskToEdit= document.getElementById(id).children[0].children[1];
         setTask(currentTaskToEdit.innerHTML);
-        dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idx: index }})
+        dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idz: index }})
         const textForm = document.querySelector('#textForm')
         textForm.focus();
+        
     }
     const toggleChecked= (id, index)=>{
-        const currentTaskInfo = state.tasks[index];
+        const currentTaskInfo = state.completedTasks[index];
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
-        const uncompletedTasks = state.tasks.filter((t)=>{
+        const completedTasks = state.completedTasks.filter((t)=>{
             if(t.id !== id){
                 return t;
             }
         })
-        if(currentCheckbox.checked){
-            currentTaskToEdit.className += ' completedTask ';
-            dispatch({type: 'COMPLETED_TASK', completedTaskPayload: currentTaskInfo, uncompletedTaskPayload: uncompletedTasks })
-        } 
+        if(!currentCheckbox.checked){
+            currentTaskToEdit.className = ' task ';
+            dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedTasks, uncompletedTaskPayload: currentTaskInfo })
+        }
     }
+
     return (
-        <section className='tasksContainer'>
-            {state?.tasks?.map((newTask,i)=>{
-                const {id, task} = newTask;
+        <section className='completedTasksContainer'>
+            <h2>Completed Tasks</h2>
+            {state?.completedTasks?.map((cTask,i)=>{
+                const {id, task} = cTask;
                 return (
                     <div 
                     key={id} 
                     id={id}
-                    className='task'
+                    className=' task completedTask '
                     >
                         <aside >
                             <input type='checkbox' 
                             name={task}
                             id='checkbox'
+                            defaultChecked='true'
                             onClick={()=>toggleChecked(id,i)}
                             />
                         <h4>{task}</h4>
                         </aside>
+
                         <aside className='nTaskBtnContainer'>
                         <button 
                         className="nTaskBtn"
-                        onClick={()=>handleEdit(id, i)}
+                        onClick={()=>handleEdit(id,i)}
                         ><FontAwesomeIcon icon={faEdit}
                         color='darkgreen'
                         size='1x'/></button>
@@ -72,4 +76,4 @@ const NewTask = ({state, dispatch, setTask}) => {
     )
 }
 
-export default NewTask
+export default CompletedTasks

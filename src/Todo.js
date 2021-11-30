@@ -1,16 +1,15 @@
-import React,{useRef, useState, useReducer, useEffect} from 'react'
+import React,{useState, useReducer} from 'react'
 import Notifications from './utils/Notifications.js';
 import reducer from './utils/reducer.js';
 import {initialState} from './utils/initialState.js';
 import TodoForm from './utils/TodoForm.js';
 import NewTask from './utils/NewTask.js';
 import NavBar from './utils/NavBar.js';
-
+import CompletedTasks from './utils/CompletedTasks.js';
 
 const Todo = () => {
     const [task, setTask] = useState('');
     const [state, dispatch] = useReducer(reducer,initialState);
-    const ref = useRef();
     
     const newDate = new Date();
     const handleSubmit = (e)=>{
@@ -24,12 +23,30 @@ const Todo = () => {
         }
         if(state.isEdit){
             state.currentTaskToEdit.innerHTML = task;
-            dispatch({type:'END_EDIT'})
+
+            const editedTask = state.tasks[state.currentTaskToEdit.idx];
+            
+            const editedcTask = state.completedTasks[state.currentTaskToEdit.idz];
+
+            let newtasks = [];
+
+            if(editedTask) {
+                newtasks = state.tasks.filter((t)=>{
+                    if(t.id !== editedTask.id){return t}})
+                editedTask.task = task;
+                newtasks.push(editedTask)
+                dispatch({type:'END_EDIT', editedTaskPayload: newtasks})
+            } else if (editedcTask){
+                newtasks = state.completedTasks.filter((t)=>{
+                    if(t.id !== editedcTask.id){return t}})
+                editedcTask.task = task;
+                newtasks.push(editedcTask)
+                dispatch({type:'END_EDIT', editedTaskPayload: newtasks})
+            }
         }
         setTask('');
     }
     const closeNotification = ()=>dispatch({type: 'CLOSE_NOTIFICATION'});
-    //
 
     return (
         <>
@@ -53,6 +70,11 @@ const Todo = () => {
             state={state}
             dispatch={dispatch}
             setTask={setTask}/>
+
+            <CompletedTasks 
+            state={state}
+            dispatch={dispatch}
+            setTask={setTask}/> 
             </main>
         </>
     )
