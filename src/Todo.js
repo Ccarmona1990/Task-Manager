@@ -6,16 +6,22 @@ import TodoForm from './utils/TodoForm.js';
 import NewTask from './utils/NewTask.js';
 import NavBar from './utils/NavBar.js';
 import CompletedTasks from './utils/CompletedTasks.js';
+import Calendar from './utils/Calendar.js';
 
 const Todo = () => {
     const [task, setTask] = useState('');
+    const [timeStamp, setTimeStamp] = React.useState('');
     const [state, dispatch] = useReducer(reducer,initialState);
     
     const newDate = new Date();
+    
     const handleSubmit = (e)=>{
         e.preventDefault();
         if(task && !state.isEdit){
-            const newTask = {id:newDate.getTime().toString(), task}
+            const newTask = {
+                id: newDate.getTime().toString(), task,
+                timeStamp
+            }
             dispatch({type:'ADD_TASK', payload: newTask})
         }
         if (!task){
@@ -60,16 +66,24 @@ const Todo = () => {
             closeNotification={closeNotification}
             />
 
+
             <TodoForm 
             setTask={setTask}
             handleSubmit={handleSubmit}
             task={task}
-            state={state}/>
+            state={state}
+            dispatch={dispatch}/>
+
+            {state.isCalendarShowing && 
+            <Calendar 
+            setTimeStamp={setTimeStamp}
+            dispatch={dispatch}/>}
             
             <NewTask
             state={state}
             dispatch={dispatch}
-            setTask={setTask}/>
+            setTask={setTask}
+            />
 
             <CompletedTasks 
             state={state}

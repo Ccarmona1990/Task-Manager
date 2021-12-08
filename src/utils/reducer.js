@@ -74,6 +74,11 @@ const reducer = (status, action)=>{
                 completedTasks: action.completedTaskPayload,
                 isTaskCompleted: false
             }
+        case 'TOGGLE_CALENDAR':
+            return {
+                ...status,
+                isCalendarShowing: !status.isCalendarShowing,
+            }
         default:
             throw new Error('No matching action type')
     }
