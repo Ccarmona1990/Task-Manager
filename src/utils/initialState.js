@@ -5,4 +5,5 @@ export const initialState = {
     isNotificationShowing: false,
     notificationMessage: "",
     isEdit: false,
+    isCalendarShowing: false,
 }

@@ -2,10 +2,16 @@ import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
 
-const TodoForm = ({handleSubmit, setTask, task, state}) => {
+const TodoForm = ({handleSubmit, setTask, task, state, dispatch}) => {
 
     const placeholder = `Add a task`;
-    const handleCalendar = ()=>{}
+    const handleCalendar = ()=>{
+        dispatch({type:'TOGGLE_CALENDAR'})
+    }
+    const handleMessage =()=>{
+        const message = document.querySelector('.message')
+        message.classList.toggle('hide')
+    }
     
     return (
         <div className='formContainer'>
@@ -21,11 +27,16 @@ const TodoForm = ({handleSubmit, setTask, task, state}) => {
                 placeholder={placeholder}
                 onChange={(e)=>{setTask(e.target.value)}}>
                 </input>
+
                 <button 
                 type='button'
                 className='calendarBtn '
                 onClick={handleCalendar}
-                ><FontAwesomeIcon icon={faCalendarAlt} size='2x'></FontAwesomeIcon></button>
+                onMouseEnter={handleMessage}
+                onMouseLeave={handleMessage}>
+                    <FontAwesomeIcon icon={faCalendarAlt} size='2x'></FontAwesomeIcon>
+                </button>
+                <div className='message hide'>add due date</div>
                 
             </form>
         </div>

@@ -36,20 +36,24 @@ const NewTask = ({state, dispatch, setTask}) => {
     return (
         <section className='tasksContainer'>
             {state?.tasks?.map((newTask,i)=>{
-                const {id, task} = newTask;
+                const {id, task, timeStamp} = newTask;
                 return (
                     <div 
                     key={id} 
                     id={id}
                     className='task'
                     >
-                        <aside >
-                            <input type='checkbox' 
+                        <aside className='ntSection1'>
+                            <input type='checkbox'
                             name={task}
                             id='checkbox'
-                            onClick={()=>toggleChecked(id,i)}
-                            />
-                        <h4>{task}</h4>
+                            onClick={()=>toggleChecked(id,i)}/>
+                            <div className='checkboxContainer'>
+                            </div>
+                            <div>
+                                <h4>{task}</h4>
+                                <h6>{timeStamp}</h6>
+                            </div>
                         </aside>
                         <aside className='nTaskBtnContainer'>
                         <button 

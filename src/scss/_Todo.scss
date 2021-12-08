@@ -22,10 +22,18 @@
   position: relative;
   h4 {
     text-transform: capitalize;
-    margin-left: 3rem;
+    text-align: left;
     text-justify: inter-cluster;
     word-break: break-all;
   }
+  h6 {
+    text-decoration: none;
+  }
+}
+
+.ntSection1 {
+  display: flex;
+  place-items: center;
 }
 
 .completedTask {
@@ -55,7 +63,7 @@ nav {
   width: 35px;
 }
 
-.calendarBtn{
+.calendarBtn {
   position: absolute;
   top: 0;
   right: 0;
@@ -63,9 +71,10 @@ nav {
   background: none;
   height: 100%;
   width: 35px;
-  &:hover{
-    background-color: map-get($map: $primary-greys, $key: 'g3' );
+  &:hover {
+    background-color: map-get($map: $primary-greys, $key: "g3");
     border-radius: 0.5rem;
+    cursor: pointer;
   }
 }
 
@@ -73,14 +82,19 @@ nav {
   min-width: 110px;
 }
 
-.nTaskBtn{
+.nTaskBtn {
   border: none;
   background: none;
   cursor: pointer;
   margin: 0px 0.5rem;
-  &:hover{
-    transform: map-get($map: $scale, $key: 's3');
+  &:hover {
+    transform: map-get($map: $scale, $key: "s3");
   }
+}
+
+.checkboxContainer {
+  width: 57px;
+  height: 57px;
 }
 
 #checkbox {
@@ -122,4 +136,24 @@ nav {
   .task {
     min-width: 470px;
   }
+}
+
+.e-calendar {
+  position: absolute;
+  top: 1px;
+  right: 110px;
+}
+
+.hide{
+  display: none;
+}
+
+.message{
+  background: white;
+  color: black;
+  padding: 0.3rem;
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  border-radius: 0.5rem;
 }
