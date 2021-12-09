@@ -58,6 +58,7 @@ const reducer = (status, action)=>{
                     notificationMessage: "Item Edited"
                 }
             }
+        break
         case 'COMPLETED_TASK':
             return {
                 ...status,
@@ -66,7 +67,7 @@ const reducer = (status, action)=>{
                 isNotificationShowing: true,
                 notificationMessage: "Task Completed",
                 isTaskCompleted: true
-            }
+            } 
         case 'UNCOMPLETED_TASK':
             return {
                 ...status,

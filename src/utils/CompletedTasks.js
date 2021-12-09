@@ -1,6 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import Message from './Message.js'
 
 const CompletedTasks = ({state, dispatch, setTask}) => {
     const handleDelete = (id)=>{
@@ -12,7 +13,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         dispatch({type: 'DELETE_COMPLETEDTASK', deleteCompletedTaskPayload: newtasks })
     }
     const handleEdit = (id, index)=>{
-        const currentTaskToEdit= document.getElementById(id).children[0].children[1];
+        const currentTaskToEdit= document.getElementById(id).children[0].children[2].children[0];
         setTask(currentTaskToEdit.innerHTML);
         dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idz: index }})
         const textForm = document.querySelector('#textForm')
@@ -33,6 +34,13 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
             dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedTasks, uncompletedTaskPayload: currentTaskInfo })
         }
     }
+    const handleMessage =(classname)=>{
+        const message = document.querySelector(`.${classname}`)
+        message.classList.toggle('hide')
+    }
+
+    const editBtnMessage = `edit Task`;
+    const deleteBtnMessage = `delete Task`;
 
     return (
         <section className='completedTasksContainer'>
@@ -61,17 +69,31 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
 
                         <aside className='nTaskBtnContainer'>
                         <button 
-                        className="nTaskBtn"
+                        className='nTaskBtn'
                         onClick={()=>handleEdit(id,i)}
+                        onMouseEnter={()=>handleMessage(`edit${id}`)}
+                        onMouseLeave={()=>handleMessage(`edit${id}`)}
                         ><FontAwesomeIcon icon={faEdit}
                         color='darkgreen'
                         size='1x'/></button>
 
-                        <button className="nTaskBtn"
+                        <Message
+                        link={`edit${id}`}
+                        msj={editBtnMessage}/>
+
+                        <button 
+                        className='nTaskBtn'
                         onClick={()=>handleDelete(id)}
+                        onMouseEnter={()=>handleMessage(`delete${id}`)}
+                        onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}
                         color='red'
                         size='1x'/></button>
+
+                        <Message
+                        link={`delete${id}`}
+                        msj={deleteBtnMessage}/>
+
                         </aside>
                     </div>
                 )

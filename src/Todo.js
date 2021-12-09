@@ -73,12 +73,11 @@ const Todo = () => {
             handleSubmit={handleSubmit}
             task={task}
             state={state}
-            dispatch={dispatch}/>
-
-            {state.isCalendarShowing && 
-            <Calendar 
+            dispatch={dispatch}
             setTimeStamp={setTimeStamp}
-            dispatch={dispatch}/>}
+            />
+
+            
 
             <NewTask
             state={state}
@@ -96,3 +95,10 @@ const Todo = () => {
 }
 
 export default Todo
+
+/**
+{state.isCalendarShowing && 
+            <Calendar 
+            setTimeStamp={setTimeStamp}
+            dispatch={dispatch}/>}
+ */

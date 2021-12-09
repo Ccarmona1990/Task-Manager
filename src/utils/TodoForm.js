@@ -1,8 +1,11 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons'
+import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
+import Calendar from './Calendar.js';
+import Message from './Message.js';
 
-const TodoForm = ({handleSubmit, setTask, task, state, dispatch}) => {
+
+const TodoForm = ({handleSubmit, setTask, task, state, dispatch, setTimeStamp}) => {
 
     const placeholder = `Add a task`;
     const handleCalendar = ()=>{
@@ -12,6 +15,7 @@ const TodoForm = ({handleSubmit, setTask, task, state, dispatch}) => {
         const message = document.querySelector('.message')
         message.classList.toggle('hide')
     }
+    const calendarBtnMessage = `add a due date`
     
     return (
         <div className='formContainer'>
@@ -36,9 +40,17 @@ const TodoForm = ({handleSubmit, setTask, task, state, dispatch}) => {
                 onMouseLeave={handleMessage}>
                     <FontAwesomeIcon icon={faCalendarAlt} size='2x'></FontAwesomeIcon>
                 </button>
-                <div className='message hide'>add due date</div>
+                <Message
+                msj={calendarBtnMessage}
+                />
                 
+                {state.isCalendarShowing && 
+                <Calendar 
+                setTimeStamp={setTimeStamp}
+                dispatch={dispatch}/>}
             </form>
+            
+
         </div>
     )
 }
