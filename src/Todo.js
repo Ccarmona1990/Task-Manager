@@ -10,7 +10,7 @@ import Calendar from './utils/Calendar.js';
 
 const Todo = () => {
     const [task, setTask] = useState('');
-    const [timeStamp, setTimeStamp] = React.useState('');
+    const [timeStamp, setTimeStamp] = useState('');
     const [state, dispatch] = useReducer(reducer,initialState);
     
     const newDate = new Date();
@@ -51,6 +51,7 @@ const Todo = () => {
             }
         }
         setTask('');
+        setTimeStamp('');
     }
     const closeNotification = ()=>dispatch({type: 'CLOSE_NOTIFICATION'});
 
@@ -59,13 +60,13 @@ const Todo = () => {
         <header>
             <NavBar/>
         </header>
+
         <main>
             <Notifications 
             state={state}
             notification={state.notificationMessage}
             closeNotification={closeNotification}
             />
-
 
             <TodoForm 
             setTask={setTask}
@@ -78,7 +79,7 @@ const Todo = () => {
             <Calendar 
             setTimeStamp={setTimeStamp}
             dispatch={dispatch}/>}
-            
+
             <NewTask
             state={state}
             dispatch={dispatch}
