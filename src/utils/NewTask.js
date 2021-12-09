@@ -12,10 +12,10 @@ const NewTask = ({state, dispatch, setTask}) => {
         })
         dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: newtasks })
     }
-    const handleEdit = (id, index)=>{
-        const currentTaskToEdit= document.getElementById(id).children[0].children[1];
+    const handleEdit = (id, index, task)=>{
+        const currentTaskToEdit= document.getElementById(id).children[0].children[2].children[0];
         setTask(currentTaskToEdit.innerHTML);
-        dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idx: index }})
+        dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idx: index, task}})
         const textForm = document.querySelector('#textForm')
         textForm.focus();
     }
@@ -58,7 +58,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                         <aside className='nTaskBtnContainer'>
                         <button 
                         className="nTaskBtn"
-                        onClick={()=>handleEdit(id, i)}
+                        onClick={()=>handleEdit(id, i, task)}
                         ><FontAwesomeIcon icon={faEdit}
                         color='darkgreen'
                         size='1x'/></button>
