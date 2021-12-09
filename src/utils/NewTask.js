@@ -1,6 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import Message from './Message'
 
 const NewTask = ({state, dispatch, setTask}) => {
 
@@ -33,6 +34,14 @@ const NewTask = ({state, dispatch, setTask}) => {
             dispatch({type: 'COMPLETED_TASK', completedTaskPayload: currentTaskInfo, uncompletedTaskPayload: uncompletedTasks })
         } 
     }
+    const handleMessage =(classname)=>{
+        const message = document.querySelector(`.${classname}`)
+        message.classList.toggle('hide')
+    }
+
+    const editBtnMessage = `edit Task`;
+    const deleteBtnMessage = `delete Task`;
+
     return (
         <section className='tasksContainer'>
             {state?.tasks?.map((newTask,i)=>{
@@ -57,17 +66,32 @@ const NewTask = ({state, dispatch, setTask}) => {
                         </aside>
                         <aside className='nTaskBtnContainer'>
                         <button 
-                        className="nTaskBtn"
+                        className='nTaskBtn'
                         onClick={()=>handleEdit(id, i, task)}
+                        onMouseEnter={()=>handleMessage(`edit${id}`)}
+                        onMouseLeave={()=>handleMessage(`edit${id}`)}
                         ><FontAwesomeIcon icon={faEdit}
                         color='darkgreen'
-                        size='1x'/></button>
+                        size='1x'
+                        /></button>
+                        
+                        <Message
+                        link={`edit${id}`}
+                        msj={editBtnMessage}/>
 
-                        <button className="nTaskBtn"
+                        <button 
+                        className='nTaskBtn'
                         onClick={()=>handleDelete(id)}
+                        onMouseEnter={()=>handleMessage(`delete${id}`)}
+                        onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}
                         color='red'
-                        size='1x'/></button>
+                        size='1x'
+                        /></button>
+
+                        <Message
+                        link={`delete${id}`}
+                        msj={deleteBtnMessage}/>
                         </aside>
                     </div>
                 )

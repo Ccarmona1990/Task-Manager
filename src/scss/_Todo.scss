@@ -140,15 +140,20 @@ nav {
 
 .e-calendar {
   position: absolute;
-  top: 1px;
-  right: 110px;
+  top: 1;
+  right: -90px;
+  max-width: 150px;
+  min-width: 190px;
+  max-height: 299px;
+  z-index: 9999;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
-.message{
+.message {
+  text-transform: capitalize;
   background: white;
   color: black;
   padding: 0.3rem;
