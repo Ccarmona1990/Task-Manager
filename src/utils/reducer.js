@@ -3,7 +3,8 @@ const reducer = (status, action)=>{
         case 'DB_CONNECTION':
             return {
                 ...status,
-                tasks: action.payload
+                tasks: action.payload.tasks,
+                completedTasks: action.payload.completedtasks
             }
         case 'ADD_TASK':
             return {
@@ -68,7 +69,7 @@ const reducer = (status, action)=>{
             return {
                 ...status,
                 tasks: action.uncompletedTaskPayload,
-                completedTasks: [...status.completedTasks, action.completedTaskPayload],
+                completedTasks: action.completedTaskPayload,
                 isNotificationShowing: true,
                 notificationMessage: "Task Completed",
                 isTaskCompleted: true

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import Calendar from './Calendar.js';
@@ -16,7 +16,7 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         e.preventDefault();
         if(task && !state.isEdit){
             try {
-                await axios.post('/api/v1/tasks', {task, timeStamp})
+                await axios.post('/api/v1/tasks', {task, timeStamp, isTaskCompleted: false})
                 const {data: {tasks}} = await axios.get('/api/v1/tasks')
                 dispatch({type:'ADD_TASK', payload: tasks})
             } catch (error) {
@@ -33,11 +33,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
             
             const editedcTask = state.completedTasks[state.currentTaskToEdit.idz];
 
-            let newtasks = [];
-
             if(editedTask) {
                 try {
-                    await axios.patch(`/api/v1/tasks/${editedTask?._id}`, {task, timeStamp });
+                    await axios.patch(`/api/v1/tasks/${editedTask?._id}`, {...editedTask, task, timeStamp});
 
                     const {data: {tasks}} = await axios.get('/api/v1/tasks');
 
@@ -46,11 +44,15 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
                     dispatch({type: 'ERROR', payload: 'There was an Error  editing your task, please try again'})
                 }
             } else if (editedcTask){
-                newtasks = state.completedTasks.filter((t)=>{
-                    if(t.id !== editedcTask.id){return t}})
-                editedcTask.task = task;
-                newtasks.push(editedcTask)
-                dispatch({type:'END_EDIT', editedTaskPayload: newtasks})
+                try {
+                    await axios.patch(`/api/v1/tasks/${editedcTask?._id}`, {...editedcTask, task, timeStamp});
+
+                    const {data: {completedtasks}} = await axios.get('/api/v1/tasks');
+
+                    dispatch({type:'END_EDIT', editedTaskPayload: completedtasks});
+                } catch (error) {
+                    dispatch({type: 'ERROR', payload: 'There was an Error  editing your task, please try again'})
+                }
             }
         }
         setTask('');

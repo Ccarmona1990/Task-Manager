@@ -23,24 +23,23 @@ const NewTask = ({state, dispatch, setTask}) => {
         const textForm = document.querySelector('#textForm')
         textForm.focus();
     }
-    const toggleChecked= async (id, index)=>{
-        const currentTaskInfo = state.tasks[index];
+    const toggleChecked= async (id)=>{
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
-        const uncompletedTasks = state.tasks.filter((t)=>{
-            if(t.id !== id){
-                return t;
-            }
-        })
+
         if(currentCheckbox.checked){
             currentTaskToEdit.className += ' completedTask ';
 
             try {
-                await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: true});
+                const {data: {currentTask}} = await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: true});
+                
+                await axios.delete(`/api/v1/tasks/${id}`)
+                
+                await axios.post('/api/v1/tasks/', currentTask)
 
-                const {data: {tasks}} = await axios.get('/api/v1/tasks')
+                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks')
 
-                dispatch({type:'COMPLETED_TASK', completedTaskPayload: currentTaskInfo, uncompletedTaskPayload: tasks })
+                dispatch({type:'COMPLETED_TASK', completedTaskPayload: completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
             }
@@ -65,7 +64,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                             <input type='checkbox'
                             name={task}
                             id='checkbox'
-                            onClick={()=>toggleChecked(id,i)}/>
+                            onClick={()=>toggleChecked(id)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>

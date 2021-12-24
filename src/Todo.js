@@ -16,8 +16,8 @@ const Todo = () => {
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
-                const {data: {tasks}} = await axios.get('/api/v1/tasks')
-                dispatch({type:'DB_CONNECTION', payload: tasks})
+                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks')
+                dispatch({type:'DB_CONNECTION', payload: {tasks,completedtasks}})
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an error, please try again later...'})
             }
