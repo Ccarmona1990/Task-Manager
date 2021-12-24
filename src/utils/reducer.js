@@ -1,9 +1,15 @@
 const reducer = (status, action)=>{
     switch (action.type){
+        case 'DB_CONNECTION':
+            return {
+                ...status,
+                tasks: action.payload.tasks,
+                completedTasks: action.payload.completedtasks
+            }
         case 'ADD_TASK':
             return {
                 ...status,
-                tasks: [...status.tasks, action.payload],
+                tasks: action.payload,
                 isNotificationShowing: true,
                 notificationMessage: "Item Added"
             }
@@ -63,7 +69,7 @@ const reducer = (status, action)=>{
             return {
                 ...status,
                 tasks: action.uncompletedTaskPayload,
-                completedTasks: [...status.completedTasks, action.completedTaskPayload],
+                completedTasks: action.completedTaskPayload,
                 isNotificationShowing: true,
                 notificationMessage: "Task Completed",
                 isTaskCompleted: true
@@ -71,7 +77,7 @@ const reducer = (status, action)=>{
         case 'UNCOMPLETED_TASK':
             return {
                 ...status,
-                tasks: [...status.tasks, action.uncompletedTaskPayload],
+                tasks: action.uncompletedTaskPayload,
                 completedTasks: action.completedTaskPayload,
                 isTaskCompleted: false
             }
@@ -80,6 +86,8 @@ const reducer = (status, action)=>{
                 ...status,
                 isCalendarShowing: !status.isCalendarShowing,
             }
+        case 'ERROR':
+            throw new Error(action.payload)
         default:
             throw new Error('No matching action type')
     }

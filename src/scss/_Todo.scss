@@ -4,6 +4,12 @@
   place-items: center;
   justify-items: center;
 }
+.completedTasksContainer {
+  justify-content: center;
+  align-items: center;
+  place-items: center;
+  justify-items: center;
+}
 
 .task {
   display: flex;
@@ -17,7 +23,7 @@
   background-color: map-get($map: $primary-blues, $key: "b5");
   margin: 20px 0;
   height: 3.7rem;
-  min-width: 350px;
+  min-width: 250px;
   max-width: 800px;
   position: relative;
   h4 {
@@ -42,9 +48,14 @@
 
 nav {
   display: flex;
+  text-align: center;
+  place-items: center;
   h1 {
     margin: 0px 1rem;
     font-family: map-get($map: $primary-fonts, $key: "f3");
+    color: black;
+    font-size: 3rem;
+    @include center();
   }
 }
 
@@ -129,12 +140,15 @@ nav {
   }
 }
 
-@media (min-width: 820px) {
+@media (min-width: 650px) {
   .tasksContainer {
     display: grid;
   }
+  .completedTasksContainer {
+    display: grid;
+  }
   .task {
-    min-width: 470px;
+    min-width: 400px;
   }
 }
 

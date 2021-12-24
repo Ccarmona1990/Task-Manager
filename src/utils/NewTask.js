@@ -2,36 +2,47 @@ import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 import Message from './Message'
+import axios from 'axios';
 
 const NewTask = ({state, dispatch, setTask}) => {
-
-    const handleDelete = (id)=>{
-        const newtasks = state.tasks.filter((t)=>{
-            if(t.id !== id){
-                return t;
-            }
-        })
-        dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: newtasks })
+    
+    const handleDelete = async (id)=>{
+        try {
+            await axios.delete(`/api/v1/tasks/${id}`)
+            const {data: {tasks}} = await axios.get('/api/v1/tasks')
+            dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: tasks })
+        } catch (error) {
+            dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
+        }
     }
-    const handleEdit = (id, index, task)=>{
+    const handleEdit = async (id, index, task)=>{
         const currentTaskToEdit= document.getElementById(id).children[0].children[2].children[0];
         setTask(currentTaskToEdit.innerHTML);
+
         dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idx: index, task}})
         const textForm = document.querySelector('#textForm')
         textForm.focus();
     }
-    const toggleChecked= (id, index)=>{
-        const currentTaskInfo = state.tasks[index];
+    const toggleChecked= async (id)=>{
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
-        const uncompletedTasks = state.tasks.filter((t)=>{
-            if(t.id !== id){
-                return t;
-            }
-        })
+
         if(currentCheckbox.checked){
             currentTaskToEdit.className += ' completedTask ';
-            dispatch({type: 'COMPLETED_TASK', completedTaskPayload: currentTaskInfo, uncompletedTaskPayload: uncompletedTasks })
+
+            try {
+                const {data: {currentTask}} = await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: true});
+                
+                await axios.delete(`/api/v1/tasks/${id}`)
+                
+                await axios.post('/api/v1/tasks/', currentTask)
+
+                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks')
+
+                dispatch({type:'COMPLETED_TASK', completedTaskPayload: completedtasks, uncompletedTaskPayload: tasks })
+            } catch (error) {
+                dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
+            }
         } 
     }
     const handleMessage =(classname)=>{
@@ -39,13 +50,10 @@ const NewTask = ({state, dispatch, setTask}) => {
         message.classList.toggle('hide')
     }
 
-    const editBtnMessage = `edit Task`;
-    const deleteBtnMessage = `delete Task`;
-
     return (
         <section className='tasksContainer'>
             {state?.tasks?.map((newTask,i)=>{
-                const {id, task, timeStamp} = newTask;
+                const {_id: id, task, timeStamp} = newTask;
                 return (
                     <div 
                     key={id} 
@@ -56,7 +64,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                             <input type='checkbox'
                             name={task}
                             id='checkbox'
-                            onClick={()=>toggleChecked(id,i)}/>
+                            onClick={()=>toggleChecked(id)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
@@ -77,7 +85,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                         
                         <Message
                         link={`edit${id}`}
-                        msj={editBtnMessage}/>
+                        msj={'edit Task'}/>
 
                         <button 
                         className='nTaskBtn'
@@ -91,7 +99,7 @@ const NewTask = ({state, dispatch, setTask}) => {
 
                         <Message
                         link={`delete${id}`}
-                        msj={deleteBtnMessage}/>
+                        msj={'delete Task'}/>
                         </aside>
                     </div>
                 )

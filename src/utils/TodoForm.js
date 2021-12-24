@@ -3,14 +3,62 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import Calendar from './Calendar.js';
 import Message from './Message.js';
+import axios from 'axios';
 
-
-const TodoForm = ({handleSubmit, setTask, task, state, dispatch, setTimeStamp}) => {
+const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
 
     const placeholder = `Add a task`;
+
     const handleCalendar = ()=>{
         dispatch({type:'TOGGLE_CALENDAR'})
     }
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        if(task && !state.isEdit){
+            try {
+                await axios.post('/api/v1/tasks', {task, timeStamp, isTaskCompleted: false})
+                const {data: {tasks}} = await axios.get('/api/v1/tasks')
+                dispatch({type:'ADD_TASK', payload: tasks})
+            } catch (error) {
+                dispatch({type: 'ERROR', payload: 'There was an Error, please try again'})
+            }
+        }
+        if (!task){
+            dispatch({type:'NO_TASK'})
+        }
+        if(state.isEdit){
+            state.currentTaskToEdit.innerHTML = task;
+
+            const editedTask = state.tasks[state.currentTaskToEdit.idx];
+            
+            const editedcTask = state.completedTasks[state.currentTaskToEdit.idz];
+
+            if(editedTask) {
+                try {
+                    await axios.patch(`/api/v1/tasks/${editedTask?._id}`, {...editedTask, task, timeStamp});
+
+                    const {data: {tasks}} = await axios.get('/api/v1/tasks');
+
+                    dispatch({type:'END_EDIT', editedTaskPayload: tasks});
+                } catch (error) {
+                    dispatch({type: 'ERROR', payload: 'There was an Error  editing your task, please try again'})
+                }
+            } else if (editedcTask){
+                try {
+                    await axios.patch(`/api/v1/tasks/${editedcTask?._id}`, {...editedcTask, task, timeStamp});
+
+                    const {data: {completedtasks}} = await axios.get('/api/v1/tasks');
+
+                    dispatch({type:'END_EDIT', editedTaskPayload: completedtasks});
+                } catch (error) {
+                    dispatch({type: 'ERROR', payload: 'There was an Error  editing your task, please try again'})
+                }
+            }
+        }
+        setTask('');
+        setTimeStamp('');
+    }
+
     const handleMessage =()=>{
         const message = document.querySelector('.message')
         message.classList.toggle('hide')
@@ -49,8 +97,6 @@ const TodoForm = ({handleSubmit, setTask, task, state, dispatch, setTimeStamp}) 
                 setTimeStamp={setTimeStamp}
                 dispatch={dispatch}/>}
             </form>
-            
-
         </div>
     )
 }
