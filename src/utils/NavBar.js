@@ -8,7 +8,7 @@ const NavBar = () => {
             <FontAwesomeIcon 
             icon={faClipboard} className='fontawesome' size='5x' color='white'>
             </FontAwesomeIcon>
-            <h1>Tasks</h1>
+            <h1>Task Manager</h1>
         </nav>
     )
 }

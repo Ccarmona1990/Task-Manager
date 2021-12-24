@@ -2,6 +2,8 @@ import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 import Message from './Message.js'
+import axios from 'axios';
+
 
 const CompletedTasks = ({state, dispatch, setTask}) => {
     const handleDelete = (id)=>{
@@ -20,7 +22,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         textForm.focus();
         
     }
-    const toggleChecked= (id, index)=>{
+    const toggleChecked= async (id, index)=>{
         const currentTaskInfo = state.completedTasks[index];
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
@@ -31,7 +33,14 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         })
         if(!currentCheckbox.checked){
             currentTaskToEdit.className = ' task ';
-            dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedTasks, uncompletedTaskPayload: currentTaskInfo })
+            try {
+                await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: false});
+
+                const {data: {tasks}} = await axios.get('/api/v1/tasks')
+                dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedTasks, uncompletedTaskPayload: tasks })
+            } catch (error) {
+                dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
+            }
         }
     }
     const handleMessage =(classname)=>{
@@ -39,14 +48,11 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         message.classList.toggle('hide')
     }
 
-    const editBtnMessage = `edit Task`;
-    const deleteBtnMessage = `delete Task`;
-
     return (
         <section className='completedTasksContainer'>
             <h2>Completed Tasks</h2>
             {state?.completedTasks?.map((cTask,i)=>{
-                const {id, task,timeStamp} = cTask;
+                const {_id: id, task,timeStamp} = cTask;
                 return (
                     <div 
                     key={id} 
@@ -79,7 +85,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
 
                         <Message
                         link={`edit${id}`}
-                        msj={editBtnMessage}/>
+                        msj={'edit Task'}/>
 
                         <button 
                         className='nTaskBtn'
@@ -92,7 +98,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
 
                         <Message
                         link={`delete${id}`}
-                        msj={deleteBtnMessage}/>
+                        msj={'delete Task'}/>
 
                         </aside>
                     </div>
