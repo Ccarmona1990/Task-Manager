@@ -1,7 +1,7 @@
 import React,{useState, useReducer, useEffect} from 'react'
 import Notifications from './utils/Notifications.js';
 import reducer from './utils/reducer.js';
-import {initialState} from './utils/initialState.js';
+import {initialState, URL} from './utils/initialState.js';
 import TodoForm from './utils/TodoForm.js';
 import NewTask from './utils/NewTask.js';
 import NavBar from './utils/NavBar.js';
@@ -16,7 +16,8 @@ const Todo = () => {
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
-                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks')
+                const {data: {tasks, completedtasks}} = await axios.get(URL)
+                console.log(tasks);
                 dispatch({type:'DB_CONNECTION', payload: {tasks,completedtasks}})
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an error, please try again later...'})
@@ -65,10 +66,3 @@ const Todo = () => {
 }
 
 export default Todo
-
-/**
-{state.isCalendarShowing && 
-            <Calendar 
-            setTimeStamp={setTimeStamp}
-            dispatch={dispatch}/>}
- */

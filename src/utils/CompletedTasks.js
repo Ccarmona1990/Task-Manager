@@ -1,6 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import {URL} from './initialState.js';
 import Message from './Message.js'
 import axios from 'axios';
 
@@ -8,8 +9,8 @@ import axios from 'axios';
 const CompletedTasks = ({state, dispatch, setTask}) => {
     const handleDelete = async (id)=>{
         try {
-            await axios.delete(`/api/v1/tasks/${id}`)
-            const {data: {completedtasks}} = await axios.get('/api/v1/tasks')
+            await axios.delete(`${URL}${id}`)
+            const {data: {completedtasks}} = await axios.get(URL)
             dispatch({type: 'DELETE_COMPLETEDTASK', deleteCompletedTaskPayload: completedtasks })
         } catch (error) {
             dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
@@ -21,7 +22,6 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         dispatch({type: 'EDIT_TASK', payload2:{...currentTaskToEdit, idz: index }})
         const textForm = document.querySelector('#textForm')
         textForm.focus();
-        
     }
     const toggleChecked= async (id)=>{
         const currentTaskToEdit = document.getElementById(id);
@@ -31,13 +31,13 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         if(!currentCheckbox.checked){
             currentTaskToEdit.className = ' task ';
             try {
-                const {data: {currentCompletedTask}} = await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: false});
+                const {data: {currentCompletedTask}} = await axios.patch(`${URL}${id}`, {isTaskCompleted: false});
 
-                await axios.delete(`/api/v1/tasks/${id}`);
+                await axios.delete(`${URL}${id}`);
                 
-                await axios.post('/api/v1/tasks/', currentCompletedTask);
+                await axios.post(URL, currentCompletedTask);
                 
-                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks');
+                const {data: {tasks, completedtasks}} = await axios.get(URL);
 
                 dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {

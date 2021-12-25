@@ -1,6 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import {URL} from './initialState';
 import Message from './Message'
 import axios from 'axios';
 
@@ -8,8 +9,8 @@ const NewTask = ({state, dispatch, setTask}) => {
     
     const handleDelete = async (id)=>{
         try {
-            await axios.delete(`/api/v1/tasks/${id}`)
-            const {data: {tasks}} = await axios.get('/api/v1/tasks')
+            await axios.delete(`${URL}${id}`)
+            const {data: {tasks}} = await axios.get(URL)
             dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: tasks })
         } catch (error) {
             dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
@@ -31,13 +32,13 @@ const NewTask = ({state, dispatch, setTask}) => {
             currentTaskToEdit.className += ' completedTask ';
 
             try {
-                const {data: {currentTask}} = await axios.patch(`/api/v1/tasks/${id}`, {isTaskCompleted: true});
+                const {data: {currentTask}} = await axios.patch(`${URL}${id}`, {isTaskCompleted: true});
                 
-                await axios.delete(`/api/v1/tasks/${id}`)
+                await axios.delete(`${URL}${id}`)
                 
-                await axios.post('/api/v1/tasks/', currentTask)
+                await axios.post(URL, currentTask)
 
-                const {data: {tasks, completedtasks}} = await axios.get('/api/v1/tasks')
+                const {data: {tasks, completedtasks}} = await axios.get(URL)
 
                 dispatch({type:'COMPLETED_TASK', completedTaskPayload: completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {

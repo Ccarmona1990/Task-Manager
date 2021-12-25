@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&family=Montserrat&display=swap");
+@import url("https://cdn.syncfusion.com/ej2/material.css");
 * {
   margin: 0;
   padding: 0;
@@ -181,6 +182,17 @@ h1 {
   justify-items: center;
 }
 
+.completedTasksContainer {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  place-items: center;
+  justify-items: center;
+}
+
 .task {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -200,16 +212,27 @@ h1 {
   background-color: #6ebef7;
   margin: 20px 0;
   height: 3.7rem;
-  min-width: 350px;
+  min-width: 250px;
   max-width: 800px;
   position: relative;
 }
 
 .task h4 {
   text-transform: capitalize;
-  margin-left: 3rem;
+  text-align: left;
   text-justify: inter-cluster;
   word-break: break-all;
+}
+
+.task h6 {
+  text-decoration: none;
+}
+
+.ntSection1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  place-items: center;
 }
 
 .completedTask {
@@ -220,11 +243,25 @@ nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  text-align: center;
+  place-items: center;
 }
 
 nav h1 {
   margin: 0px 1rem;
   font-family: "Nunito";
+  color: black;
+  font-size: 3rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  place-items: center;
 }
 
 .formContainer {
@@ -259,6 +296,7 @@ nav h1 {
 .calendarBtn:hover {
   background-color: #e2e8f0;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 .nTaskBtnContainer {
@@ -275,6 +313,11 @@ nav h1 {
 .nTaskBtn:hover {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
+}
+
+.checkboxContainer {
+  width: 57px;
+  height: 57px;
 }
 
 #checkbox {
@@ -311,14 +354,43 @@ nav h1 {
   cursor: pointer;
 }
 
-@media (min-width: 820px) {
+@media (min-width: 650px) {
   .tasksContainer {
     display: -ms-grid;
     display: grid;
   }
-  .task {
-    min-width: 470px;
+  .completedTasksContainer {
+    display: -ms-grid;
+    display: grid;
   }
+  .task {
+    min-width: 400px;
+  }
+}
+
+.e-calendar {
+  position: absolute;
+  top: 1;
+  right: -90px;
+  max-width: 150px;
+  min-width: 190px;
+  max-height: 299px;
+  z-index: 9999;
+}
+
+.hide {
+  display: none;
+}
+
+.message {
+  text-transform: capitalize;
+  background: white;
+  color: black;
+  padding: 0.3rem;
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  border-radius: 0.5rem;
 }
 
 body {
