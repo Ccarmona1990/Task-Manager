@@ -1,16 +1,10 @@
 import React from 'react';
 import { Outlet, Link } from "react-router-dom";
 
-// import Todo from './pages/Todo';
-// import Auth from './pages/Auth';
-
-// <Todo /> 
-// {/* {<Auth/>} */}
-
 const Layout = () => {
   return (
     <>
-      <nav>
+      {/* <nav>
         <ul>
           <li>
             <Link to="/">Authentication</Link>
@@ -19,7 +13,7 @@ const Layout = () => {
             <Link to="/task-manager">task manager</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
 
       <Outlet />
     </>

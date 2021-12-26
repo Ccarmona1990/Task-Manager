@@ -10,7 +10,7 @@ const App = () => {
         <BrowserRouter >
             <Routes>
                 <Route path='/' element={<Layout/>}>
-                    <Route index element={<Auth/>}/>
+                    <Route index element={<Auth/> }/>
                     <Route path='task-manager' element={<Todo/>}/>
                     <Route path='*' element={<NoPage/>}/>
                 </Route>
