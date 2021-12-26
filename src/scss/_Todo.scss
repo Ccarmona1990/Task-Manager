@@ -1,16 +1,5 @@
-body {
-  margin: 0 10vw;
-  background: rgb(63, 94, 251);
-  background: radial-gradient(
-    circle,
-    rgba(63, 94, 251, 1) 0%,
-    rgba(189, 70, 252, 0.6976540616246498) 100%
-  );
-}
-
 .container {
   @include center();
-  margin-top: 1vh;
   padding: 10vh;
 }
 
@@ -67,13 +56,14 @@ nav {
   text-align: center;
   place-items: center;
   justify-content: space-between;
+  padding: 1rem 5rem;
   div {
     display: flex;
   }
   h1 {
     margin: 0px 1rem;
     font-family: map-get($map: $primary-fonts, $key: "f3");
-    color: black;
+    color: rgb(63, 94, 251);
     font-size: 3rem;
     @include center();
   }

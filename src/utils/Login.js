@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import {Navigate} from 'react-router-dom'
 import axios from 'axios'
 import {loginAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
+import {ColorContext} from '../App'
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const Login = () => {
     const [isNotificationShowing,setIsNotificationShowing] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
     const [isLogin, setIsLogin] = useState(false);
+    const changeColor = useContext(ColorContext);
 
     React.useEffect(() => {
         
@@ -28,7 +30,7 @@ const Login = () => {
             if(user){
                 setNotificationMessage(`Welcome ${user.username}`);
                 
-                //window.location.pathname += 'task-manager'
+                changeColor("#282c34")
                 setIsLogin(true)
 
             } else if (!user){
