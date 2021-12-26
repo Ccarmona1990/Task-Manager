@@ -1,13 +1,26 @@
 .notificationContainer {
-  @include center();
   display: flex;
-  height: 5rem;
+  height: 4rem;
+  @include center();
 }
 
 .holder {
   width: 350px;
   height: 50px;
   position: relative;
+}
+
+.notification1 {
+  max-width: 470px;
+  height: auto;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: $letterSpacing;
+  font-family: map-get($map: $primary-fonts, $key: "f3");
+  word-wrap: break-word;
+  background-color: red;
+  padding: 5px 0;
+  border: 0.5px solid black;
 }
 
 .notification {

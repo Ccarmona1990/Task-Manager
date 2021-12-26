@@ -1,16 +1,15 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
-import {URL} from './initialState.js';
+import {serverAPI_URL} from './initialState.js';
 import Message from './Message.js'
 import axios from 'axios';
-
 
 const CompletedTasks = ({state, dispatch, setTask}) => {
     const handleDelete = async (id)=>{
         try {
-            await axios.delete(`${URL}${id}`)
-            const {data: {completedtasks}} = await axios.get(URL)
+            await axios.delete(`${serverAPI_URL}${id}`)
+            const {data: {completedtasks}} = await axios.get(serverAPI_URL)
             dispatch({type: 'DELETE_COMPLETEDTASK', deleteCompletedTaskPayload: completedtasks })
         } catch (error) {
             dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
@@ -31,13 +30,13 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         if(!currentCheckbox.checked){
             currentTaskToEdit.className = ' task ';
             try {
-                const {data: {currentCompletedTask}} = await axios.patch(`${URL}${id}`, {isTaskCompleted: false});
+                const {data: {currentCompletedTask}} = await axios.patch(`${serverAPI_URL}${id}`, {isTaskCompleted: false});
 
-                await axios.delete(`${URL}${id}`);
+                await axios.delete(`${serverAPI_URL}${id}`);
                 
-                await axios.post(URL, currentCompletedTask);
+                await axios.post(serverAPI_URL, currentCompletedTask);
                 
-                const {data: {tasks, completedtasks}} = await axios.get(URL);
+                const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL);
 
                 dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {
@@ -101,7 +100,6 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
                         <Message
                         link={`delete${id}`}
                         msj={'delete Task'}/>
-
                         </aside>
                     </div>
                 )
