@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Outlet, Link } from "react-router-dom";
+import {Navigate} from 'react-router-dom'
 import axios from 'axios'
 import {loginAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
@@ -9,6 +9,14 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [isNotificationShowing,setIsNotificationShowing] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [isLogin, setIsLogin] = useState(false);
+
+    React.useEffect(() => {
+        
+        return () => {
+            setIsLogin(false)
+        }
+    }, [])
 
     const login = async (e) =>{
         e.preventDefault();
@@ -19,7 +27,10 @@ const Login = () => {
             const {data: {user}} = await axios.get(`${loginAPI_URL}${username}&${password}`);
             if(user){
                 setNotificationMessage(`Welcome ${user.username}`);
-                window.location.pathname += 'task-manager'
+                
+                //window.location.pathname += 'task-manager'
+                setIsLogin(true)
+
             } else if (!user){
                 setNotificationMessage(`No user found with the information provided. Please check your username or password `)
             }
@@ -29,6 +40,7 @@ const Login = () => {
     }
 
     return (
+            <>
         <div className='login formContainer1'>
             <h1>Login</h1>
             <form className='contactForm'>
@@ -62,6 +74,9 @@ const Login = () => {
             notificationMessage={notificationMessage}/>
 
         </div>
+
+        {isLogin && <Navigate to='/task-manager'></Navigate>}
+        </>
     )
 }
 
