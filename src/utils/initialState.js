@@ -9,4 +9,7 @@ export const initialState = {
     isCalendarShowing: false,
 }
 
-export const URL = 'https://taskm-api.herokuapp.com/api/v1/tasks/';
+export const serverAPI_URL = 'https://taskm-api.herokuapp.com/api/v1/tasks/';
+
+export const registerAPI_URL = 'https://tm-auth-api.herokuapp.com/api/v1/register'
+export const loginAPI_URL = 'https://tm-auth-api.herokuapp.com/api/v1/login/'

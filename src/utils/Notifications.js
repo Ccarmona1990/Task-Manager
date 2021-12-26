@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
 
-const Notifications = ({notification, closeNotification}) => {
+const NotificationContainer = ({state, dispatch})=>{
+    const closeNotification = ()=>{
+        dispatch({type: 'CLOSE_NOTIFICATION'});
+    }
 
     useEffect(()=>{
         setTimeout(()=>{
@@ -8,21 +11,26 @@ const Notifications = ({notification, closeNotification}) => {
         },3000)
     })
     return (
-            <h3 className='notification'>
-            {notification}</h3>
-    )
-}
-
-const NotificationContainer = ({state, notification, closeNotification })=>{
-    return (
         <div className='notificationContainer'>
             <div className="holder">
             {state.isNotificationShowing && 
-            <Notifications 
-            notification={notification}
-            closeNotification={closeNotification}
-            />}
+            <h3 className='notification'>
+            {state.notificationMessage}</h3>}
             </div>
+        </div>
+    )
+}
+export const AuthNotification = ({isNotificationShowing, setIsNotificationShowing, notificationMessage})=>{
+    useEffect(()=>{
+        setTimeout(()=>{
+            setIsNotificationShowing(false);
+        },5000)
+    })
+
+    return (
+        <div className='notificationContainer'>
+            {isNotificationShowing && <h3 className='notification1'>
+            {notificationMessage}</h3>}
         </div>
     )
 }

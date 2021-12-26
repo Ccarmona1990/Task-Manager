@@ -1,11 +1,12 @@
 import React,{useState, useReducer, useEffect} from 'react'
-import Notifications from './utils/Notifications.js';
-import reducer from './utils/reducer.js';
-import {initialState, URL} from './utils/initialState.js';
-import TodoForm from './utils/TodoForm.js';
-import NewTask from './utils/NewTask.js';
-import NavBar from './utils/NavBar.js';
-import CompletedTasks from './utils/CompletedTasks.js';
+import Notifications from '../utils/Notifications.js';
+import reducer from '../utils/reducer.js';
+import {initialState, serverAPI_URL} from '../utils/initialState.js';
+import TodoForm from '../utils/TodoForm.js';
+import NewTask from '../utils/NewTask.js';
+import NavBar from '../utils/NavBar.js';
+import CompletedTasks from '../utils/CompletedTasks.js';
+import '../style.scss';
 import axios from 'axios';
 
 const Todo = () => {
@@ -16,7 +17,7 @@ const Todo = () => {
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
-                const {data: {tasks, completedtasks}} = await axios.get(URL)
+                const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL)
                 console.log(tasks);
                 dispatch({type:'DB_CONNECTION', payload: {tasks,completedtasks}})
             } catch (error) {
@@ -25,8 +26,6 @@ const Todo = () => {
         }
         fetchData()
     },[])
-
-    const closeNotification = ()=>dispatch({type: 'CLOSE_NOTIFICATION'});
 
     return (
         <>
@@ -37,9 +36,7 @@ const Todo = () => {
         <main>
             <Notifications 
             state={state}
-            notification={state.notificationMessage}
-            closeNotification={closeNotification}
-            />
+            dispatch={dispatch}/>
 
             <TodoForm 
             setTask={setTask}

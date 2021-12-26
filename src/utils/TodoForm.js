@@ -1,14 +1,12 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-import {URL} from './initialState';
+import {serverAPI_URL} from './initialState';
 import Calendar from './Calendar.js';
 import Message from './Message.js';
 import axios from 'axios';
 
 const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
-
-    const placeholder = `Add a task`;
 
     const handleCalendar = ()=>{
         dispatch({type:'TOGGLE_CALENDAR'})
@@ -17,8 +15,8 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         e.preventDefault();
         if(task && !state.isEdit){
             try {
-                await axios.post(URL, {task, timeStamp, isTaskCompleted: false})
-                const {data: {tasks}} = await axios.get(URL)
+                await axios.post(serverAPI_URL, {task, timeStamp, isTaskCompleted: false})
+                const {data: {tasks}} = await axios.get(serverAPI_URL)
                 dispatch({type:'ADD_TASK', payload: tasks})
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an Error, please try again'})
@@ -36,9 +34,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
 
             if(editedTask) {
                 try {
-                    await axios.patch(`${URL}${editedTask?._id}`, {...editedTask, task, timeStamp});
+                    await axios.patch(`${serverAPI_URL}${editedTask?._id}`, {...editedTask, task, timeStamp});
 
-                    const {data: {tasks}} = await axios.get(URL);
+                    const {data: {tasks}} = await axios.get(serverAPI_URL);
 
                     dispatch({type:'END_EDIT', editedTaskPayload: tasks});
                 } catch (error) {
@@ -46,9 +44,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
                 }
             } else if (editedcTask){
                 try {
-                    await axios.patch(`${URL}${editedcTask?._id}`, {...editedcTask, task, timeStamp});
+                    await axios.patch(`${serverAPI_URL}${editedcTask?._id}`, {...editedcTask, task, timeStamp});
 
-                    const {data: {completedtasks}} = await axios.get(URL);
+                    const {data: {completedtasks}} = await axios.get(serverAPI_URL);
 
                     dispatch({type:'END_EDIT', editedTaskPayload: completedtasks});
                 } catch (error) {
@@ -64,20 +62,22 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         const message = document.querySelector('.message')
         message.classList.toggle('hide')
     }
-    const calendarBtnMessage = `add a due date`
     
     return (
-        <div className='formContainer'>
+        <div className='formContainer0'>
         <form 
             onSubmit={handleSubmit}
             className='simpleForm'>
                 <button className='taskBtn' >
-                    {state.isEdit ? <FontAwesomeIcon icon={faEdit} /> : <FontAwesomeIcon icon={faPlus} />}</button>
+                    {state.isEdit ? <FontAwesomeIcon icon={faEdit} /> : <FontAwesomeIcon icon={faPlus} />}
+                </button>
+
                 <input 
                 id='textForm'
                 type="text" 
-                value={task} 
-                placeholder={placeholder}
+                value={task}
+                required
+                placeholder={'Add a task'}
                 onChange={(e)=>{setTask(e.target.value)}}>
                 </input>
 
@@ -89,8 +89,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
                 onMouseLeave={handleMessage}>
                     <FontAwesomeIcon icon={faCalendarAlt} size='2x'></FontAwesomeIcon>
                 </button>
+
                 <Message
-                msj={calendarBtnMessage}
+                msj={'add a due date'}
                 />
                 
                 {state.isCalendarShowing && 
