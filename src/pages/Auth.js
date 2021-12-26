@@ -1,7 +1,6 @@
 import React from 'react';
 import Login from '../utils/Login';
 import Registration from '../utils/Registration';
-import '../authStyle.scss';
 
 const Auth = () => {
     React.useEffect(() => {
