@@ -1,7 +1,7 @@
 import React,{useState, useReducer, useEffect} from 'react'
 import Notifications from '../utils/Notifications.js';
 import reducer from '../utils/reducer.js';
-import {initialState, serverAPI_URL} from '../utils/initialState.js';
+import {initialState, sessionAPI_URL, serverAPI_URL} from '../utils/initialState.js';
 import TodoForm from '../utils/TodoForm.js';
 import NewTask from '../utils/NewTask.js';
 import NavBar from '../utils/NavBar.js';
@@ -13,10 +13,15 @@ const Todo = () => {
     const [task, setTask] = useState('');
     const [timeStamp, setTimeStamp] = useState('');
     const [state, dispatch] = useReducer(reducer,initialState);
-
+    
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
+                // current user session 
+                const {data} = await axios.get(sessionAPI_URL, {withCredentials:true});
+                console.log(data);
+
+                // tasks db connection
                 const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL)
                 dispatch({type:'DB_CONNECTION', payload: {tasks,completedtasks}})
             } catch (error) {

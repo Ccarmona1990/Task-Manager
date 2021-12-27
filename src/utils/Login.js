@@ -14,7 +14,15 @@ const Login = () => {
     const changeColor = useContext(ColorContext);
 
     React.useEffect(() => {
-        
+        const getLogin= async()=>{
+            try {
+                const {data} = await axios.get(loginAPI_URL, {withCredentials:true});
+                console.log(data);
+            } catch (error) {
+                console.log('User not logged');
+            }
+        }
+        getLogin()
         return () => {
             setIsLogin(false)
         }
@@ -25,7 +33,7 @@ const Login = () => {
         
         setIsNotificationShowing(true)
         try {
-            await axios.post(loginAPI_URL, {username, password});
+            await axios.post(loginAPI_URL, {username, password}, {withCredentials:true});
             const {data: {user}} = await axios.get(`${loginAPI_URL}${username}&${password}`);
             if(user){
                 setNotificationMessage(`Welcome ${user.username}`);
