@@ -1,6 +1,14 @@
+body{
+  height: 100vh;
+  width: 100vw;
+}
+
+#master {
+  min-height: 100vh;
+}
+
 .container {
   @include center();
-  padding: 10vh;
 }
 
 .tasksContainer {
@@ -67,6 +75,12 @@ nav {
     font-size: 3rem;
     @include center();
   }
+}
+
+@media (max-width:365px){
+  nav{
+    padding: 0 0.5rem;
+  } 
 }
 
 .taskBtn {
