@@ -6,9 +6,12 @@ import Todo from './pages/Todo'
 import NoPage from './pages/NoPage'
 
 export const ColorContext = createContext();
+const hostname = window.location.hostname;
 
 const App = () => {
     const [color, changeColor] = useState("rgba(12, 12, 53, 0.911)");
+    document.title = hostname;
+    //'tm24h'
 
     return (
     <div id='master' style={{background: color}}>
