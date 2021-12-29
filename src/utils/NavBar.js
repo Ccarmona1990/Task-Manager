@@ -18,7 +18,8 @@ const NavBar = () => {
                 <h1>Task Manager</h1>
             </div>
             <Link className='link-btn ' to="/" onClick={async ()=>{
-                await axios.post(sessionAPI_URL, {loggedIn:false},{withCredentials:false}); 
+                await axios.post(sessionAPI_URL, {loggedIn:false}//,{withCredentials:false}
+                    ); 
                 console.log('loggout');
                 
                 localStorage.removeItem('username')

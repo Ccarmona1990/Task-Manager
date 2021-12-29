@@ -16,7 +16,7 @@ const Login = () => {
     React.useEffect(() => {
         const getLogin= async()=>{
             try {
-                const {data} = await axios.get(loginAuthAPI_URL, {withCredentials:true}
+                const {data} = await axios.get(loginAuthAPI_URL//, {withCredentials:true}
                     );
                 //console.log(data);
             } catch (error) {
@@ -34,7 +34,7 @@ const Login = () => {
         
         setIsNotificationShowing(true)
         try {
-            await axios.post(loginAuthAPI_URL, {username, password}, {withCredentials:true}
+            await axios.post(loginAuthAPI_URL, {username, password}//, {withCredentials:true}
             );
             
             localStorage.setItem('username', username)

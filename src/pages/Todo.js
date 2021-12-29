@@ -18,7 +18,7 @@ const Todo = () => {
         const fetchData = async ()=>{
             try {
                 // current user session 
-                const {data} = await axios.get(sessionAPI_URL, {withCredentials:true}
+                const {data} = await axios.get(sessionAPI_URL//, {withCredentials:true}
                     );
                 console.log(data);
                 const username = localStorage.getItem('username');
