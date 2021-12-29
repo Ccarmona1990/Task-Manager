@@ -7,10 +7,12 @@ import axios from 'axios';
 
 const NewTask = ({state, dispatch, setTask}) => {
     
-    const handleDelete = async (id)=>{
+    const handleDelete = async (id, username)=>{
         try {
             await axios.delete(`${serverAPI_URL}${id}`)
-            const {data: {tasks}} = await axios.get(serverAPI_URL)
+            
+            const {data: {tasks}} = await axios.get(`${serverAPI_URL}${username}`)
+            
             dispatch({type: 'DELETE_TASK', deleteUncompletedTaskPayload: tasks })
         } catch (error) {
             dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
@@ -24,7 +26,7 @@ const NewTask = ({state, dispatch, setTask}) => {
         const textForm = document.querySelector('#textForm')
         textForm.focus();
     }
-    const toggleChecked= async (id)=>{
+    const toggleChecked= async (id, username)=>{
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
 
@@ -37,7 +39,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                 
                 await axios.post(serverAPI_URL, currentTask)
 
-                const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL)
+                const {data: {tasks, completedtasks}} = await axios.get(`${serverAPI_URL}${username}`)
 
                 dispatch({type:'COMPLETED_TASK', completedTaskPayload: completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {
@@ -53,7 +55,7 @@ const NewTask = ({state, dispatch, setTask}) => {
     return (
         <section className='tasksContainer'>
             {state?.tasks?.map((newTask,i)=>{
-                const {_id: id, task, timeStamp} = newTask;
+                const {_id: id, task, timeStamp, username} = newTask;
                 return (
                     <div 
                     key={id} 
@@ -64,7 +66,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                             <input type='checkbox'
                             name={task}
                             id='checkbox'
-                            onClick={()=>toggleChecked(id)}/>
+                            onClick={()=>toggleChecked(id, username)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
@@ -89,7 +91,7 @@ const NewTask = ({state, dispatch, setTask}) => {
 
                         <button 
                         className='nTaskBtn'
-                        onClick={()=>handleDelete(id)}
+                        onClick={()=>handleDelete(id, username)}
                         onMouseEnter={()=>handleMessage(`delete${id}`)}
                         onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}

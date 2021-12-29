@@ -1,4 +1,4 @@
-import React, {createContext} from 'react'
+import React, {useState, createContext} from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Layout from './pages/Layout'
 import Auth from './pages/Auth'
@@ -8,7 +8,8 @@ import NoPage from './pages/NoPage'
 export const ColorContext = createContext();
 
 const App = () => {
-    const [color, changeColor] = React.useState("rgba(12, 12, 53, 0.911)");
+    const [color, changeColor] = useState("rgba(12, 12, 53, 0.911)");
+
     return (
     <div id='master' style={{background: color}}>
         <BrowserRouter>
@@ -16,15 +17,17 @@ const App = () => {
                 <Route path='/' element={<Layout/>}>
 
                     <Route index element={
-                    <ColorContext.Provider value={changeColor}>
-                    <Auth changeColor={changeColor}/>
-                    </ColorContext.Provider>
+                            <ColorContext.Provider value={changeColor}>
+                                <Auth 
+                                changeColor={changeColor}/>
+                            </ColorContext.Provider>
                     }/>
 
                     <Route path='task-manager' element={
-                    <ColorContext.Provider value={changeColor}>
-                    <Todo changeColor={changeColor}/>
-                    </ColorContext.Provider>}/>
+                            <ColorContext.Provider value={changeColor}>
+                                <Todo 
+                                changeColor={changeColor}/>
+                            </ColorContext.Provider>}/>
 
                     <Route path='*' element={<NoPage/>}/>
 

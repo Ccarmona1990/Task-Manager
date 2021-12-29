@@ -6,10 +6,12 @@ import Message from './Message.js'
 import axios from 'axios';
 
 const CompletedTasks = ({state, dispatch, setTask}) => {
-    const handleDelete = async (id)=>{
+    const handleDelete = async (id, username)=>{
         try {
             await axios.delete(`${serverAPI_URL}${id}`)
-            const {data: {completedtasks}} = await axios.get(serverAPI_URL)
+            
+            const {data: {completedtasks}} = await axios.get(`${serverAPI_URL}${username}`)
+            
             dispatch({type: 'DELETE_COMPLETEDTASK', deleteCompletedTaskPayload: completedtasks })
         } catch (error) {
             dispatch({type: 'ERROR', payload: 'There was an Error, please try again later'})
@@ -22,7 +24,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         const textForm = document.querySelector('#textForm')
         textForm.focus();
     }
-    const toggleChecked= async (id)=>{
+    const toggleChecked= async (id, username)=>{
         const currentTaskToEdit = document.getElementById(id);
 
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
@@ -36,7 +38,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
                 
                 await axios.post(serverAPI_URL, currentCompletedTask);
                 
-                const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL);
+                const {data: {tasks, completedtasks}} = await axios.get(`${serverAPI_URL}${username}`);
 
                 dispatch({type: 'UNCOMPLETED_TASK', completedTaskPayload:  completedtasks, uncompletedTaskPayload: tasks })
             } catch (error) {
@@ -53,7 +55,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         <section className='completedTasksContainer'>
             <h2>Completed Tasks</h2>
             {state?.completedTasks?.map((cTask,i)=>{
-                const {_id: id, task,timeStamp} = cTask;
+                const {_id: id, task,timeStamp, username} = cTask;
                 return (
                     <div 
                     key={id} 
@@ -65,7 +67,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
                             name={task}
                             id='checkbox'
                             defaultChecked='true'
-                            onClick={()=>toggleChecked(id,i)}/>
+                            onClick={()=>toggleChecked(id, username)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
@@ -90,7 +92,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
 
                         <button 
                         className='nTaskBtn'
-                        onClick={()=>handleDelete(id)}
+                        onClick={()=>handleDelete(id, username)}
                         onMouseEnter={()=>handleMessage(`delete${id}`)}
                         onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}
