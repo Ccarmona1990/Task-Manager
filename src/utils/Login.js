@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import {Navigate} from 'react-router-dom'
 import axios from 'axios'
-import {loginAPI_URL} from './initialState'
+import {loginAuthAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
 import {ColorContext} from '../App'
 
@@ -16,8 +16,9 @@ const Login = () => {
     React.useEffect(() => {
         const getLogin= async()=>{
             try {
-                const {data} = await axios.get(loginAPI_URL, {withCredentials:true});
-                console.log(data);
+                const {data} = await axios.get(loginAuthAPI_URL, {withCredentials:true}
+                    );
+                //console.log(data);
             } catch (error) {
                 console.log('User not logged');
             }
@@ -33,8 +34,13 @@ const Login = () => {
         
         setIsNotificationShowing(true)
         try {
-            await axios.post(loginAPI_URL, {username, password}, {withCredentials:true});
-            const {data: {user}} = await axios.get(`${loginAPI_URL}${username}&${password}`);
+            await axios.post(loginAuthAPI_URL, {username, password}, {withCredentials:true}
+            );
+            
+            localStorage.setItem('username', username)
+
+            const {data: {user}} = await axios.get(`${loginAuthAPI_URL}${username}`);
+
             if(user){
                 setNotificationMessage(`Welcome ${user.username}`);
                 

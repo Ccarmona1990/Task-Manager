@@ -17,17 +17,17 @@ const App = () => {
                 <Route path='/' element={<Layout/>}>
 
                     <Route index element={
-                    <ColorContext.Provider value={changeColor}>
-                    <Auth 
-                    changeColor={changeColor}/>
-                    </ColorContext.Provider>
+                            <ColorContext.Provider value={changeColor}>
+                                <Auth 
+                                changeColor={changeColor}/>
+                            </ColorContext.Provider>
                     }/>
 
                     <Route path='task-manager' element={
-                    <ColorContext.Provider value={changeColor}>
-                    <Todo 
-                    changeColor={changeColor}/>
-                    </ColorContext.Provider>}/>
+                            <ColorContext.Provider value={changeColor}>
+                                <Todo 
+                                changeColor={changeColor}/>
+                            </ColorContext.Provider>}/>
 
                     <Route path='*' element={<NoPage/>}/>
 

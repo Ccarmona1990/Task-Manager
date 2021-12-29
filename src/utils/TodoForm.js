@@ -1,7 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus, faEdit, faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-import {serverAPI_URL} from './initialState';
+import {serverAPI_URL, sessionAPI_URL} from './initialState';
 import Calendar from './Calendar.js';
 import Message from './Message.js';
 import axios from 'axios';
@@ -15,8 +15,14 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         e.preventDefault();
         if(task && !state.isEdit){
             try {
-                await axios.post(serverAPI_URL, {task, timeStamp, isTaskCompleted: false})
-                const {data: {tasks}} = await axios.get(serverAPI_URL)
+                //const {data: {user: {username}}} =await axios.get(sessionAPI_URL)
+
+                const username = localStorage.getItem('username');
+
+                await axios.post(serverAPI_URL, {task, timeStamp, isTaskCompleted: false, username})
+
+                const {data: {tasks}} = await axios.get(`${serverAPI_URL}${username}`)
+
                 dispatch({type:'ADD_TASK', payload: tasks})
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an Error, please try again'})
@@ -34,9 +40,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
 
             if(editedTask) {
                 try {
-                    await axios.patch(`${serverAPI_URL}${editedTask?._id}`, {...editedTask, task, timeStamp});
+                    const {data:{currentTask:{username}}} = await axios.patch(`${serverAPI_URL}${editedTask?._id}`, {...editedTask, task, timeStamp});
 
-                    const {data: {tasks}} = await axios.get(serverAPI_URL);
+                    const {data: {tasks}} = await axios.get(`${serverAPI_URL}${username}`);
 
                     dispatch({type:'END_EDIT', editedTaskPayload: tasks});
                 } catch (error) {
@@ -44,9 +50,9 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
                 }
             } else if (editedcTask){
                 try {
-                    await axios.patch(`${serverAPI_URL}${editedcTask?._id}`, {...editedcTask, task, timeStamp});
+                    const {data:{currentTask:{username}}} = await axios.patch(`${serverAPI_URL}${editedcTask?._id}`, {...editedcTask, task, timeStamp});
 
-                    const {data: {completedtasks}} = await axios.get(serverAPI_URL);
+                    const {data: {completedtasks}} = await axios.get(`${serverAPI_URL}${username}`);
 
                     dispatch({type:'END_EDIT', editedTaskPayload: completedtasks});
                 } catch (error) {

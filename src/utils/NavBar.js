@@ -20,6 +20,8 @@ const NavBar = () => {
             <Link className='link-btn ' to="/" onClick={async ()=>{
                 await axios.post(sessionAPI_URL, {loggedIn:false},{withCredentials:false}); 
                 console.log('loggout');
+                
+                localStorage.removeItem('username')
                 changeColor("rgba(12, 12, 53, 0.911)")}}>Log out</Link>
         </nav>
     )

@@ -1,6 +1,6 @@
 import React, {useState}from 'react';
 import axios from 'axios';
-import {registerAPI_URL} from './initialState'
+import {registerAPI_URL, usertasksAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
 
 const Registration = () => {
@@ -15,6 +15,7 @@ const Registration = () => {
         setIsNotificationShowing(true);
         try {
             await axios.post(registerAPI_URL, {username, password});
+            await axios.post(usertasksAPI_URL, {username})
             setNotificationMessage('You have successfully created your account.')
         } catch (err) {
             console.log(err);

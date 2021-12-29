@@ -18,11 +18,14 @@ const Todo = () => {
         const fetchData = async ()=>{
             try {
                 // current user session 
-                const {data} = await axios.get(sessionAPI_URL, {withCredentials:true});
+                const {data} = await axios.get(sessionAPI_URL, {withCredentials:true}
+                    );
                 console.log(data);
+                const username = localStorage.getItem('username');
 
                 // tasks db connection
-                const {data: {tasks, completedtasks}} = await axios.get(serverAPI_URL)
+                const {data: {tasks, completedtasks}} = await axios.get(`${serverAPI_URL}${username}`)
+
                 dispatch({type:'DB_CONNECTION', payload: {tasks,completedtasks}})
             } catch (error) {
                 dispatch({type: 'ERROR', payload: 'There was an error, please try again later...'})
