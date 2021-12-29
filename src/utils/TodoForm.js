@@ -15,8 +15,6 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         e.preventDefault();
         if(task && !state.isEdit){
             try {
-                //const {data: {user: {username}}} =await axios.get(sessionAPI_URL)
-
                 const username = localStorage.getItem('username');
 
                 await axios.post(serverAPI_URL, {task, timeStamp, isTaskCompleted: false, username})

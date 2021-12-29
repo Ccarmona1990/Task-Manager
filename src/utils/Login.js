@@ -13,41 +13,23 @@ const Login = () => {
     const [isLogin, setIsLogin] = useState(false);
     const changeColor = useContext(ColorContext);
 
-    React.useEffect(() => {
-        const getLogin= async()=>{
-            try {
-                const {data} = await axios.get(loginAuthAPI_URL//, {withCredentials:true}
-                    );
-                //console.log(data);
-            } catch (error) {
-                console.log('User not logged');
-            }
-        }
-        getLogin()
-        return () => {
-            setIsLogin(false)
-        }
-    }, [])
-
     const login = async (e) =>{
         e.preventDefault();
         
         setIsNotificationShowing(true)
         try {
-            await axios.post(loginAuthAPI_URL, {username, password}//, {withCredentials:true}
+            const {data: {success}} = await axios.post(loginAuthAPI_URL, {username, password}//, {withCredentials:true}
             );
             
-            localStorage.setItem('username', username)
+            localStorage.setItem('username', username);
 
-            const {data: {user}} = await axios.get(`${loginAuthAPI_URL}${username}`);
-
-            if(user){
-                setNotificationMessage(`Welcome ${user.username}`);
+            if(success){
+                setNotificationMessage(`Welcome ${username}`);
                 
                 changeColor("#282c34")
                 setIsLogin(true)
 
-            } else if (!user){
+            } else if (!success){
                 setNotificationMessage(`No user found with the information provided. Please check your username or password `)
             }
         } catch (err) {
@@ -64,7 +46,7 @@ const Login = () => {
                 <input 
                 className='form-control' type='text' placeholder='Username...'
                 onChange={(e)=>{
-                    setUsername(e.target.value)
+                    setUsername(e.target.value.toLowerCase())
                 }}
                 required
                 ></input>
@@ -76,7 +58,7 @@ const Login = () => {
                 required
                 minLength={8}
                 onChange={(e)=>{
-                    setPassword(e.target.value)
+                    setPassword(e.target.value.toLowerCase())
                 }}></input>
 
                 <button className='contactFormBtn'

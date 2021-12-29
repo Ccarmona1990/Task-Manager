@@ -38,7 +38,7 @@ const Registration = () => {
                 className='form-control'
                 type='text'
                 onChange={(e)=>{
-                    setUsername(e.target.value)
+                    setUsername(e.target.value.toLowerCase())
                 }}></input>
                 <label>Password</label>
                 <input 
@@ -47,7 +47,7 @@ const Registration = () => {
                 className='form-control'
                 type='password'
                 onChange={(e)=>{
-                    setPassword(e.target.value)
+                    setPassword(e.target.value.toLowerCase())
                 }}></input>
                 <button className='contactFormBtn'
                 onClick={register}> Register </button>
