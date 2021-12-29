@@ -1,5 +1,5 @@
 import React, {useState, createContext} from 'react'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Layout from './pages/Layout'
 import Auth from './pages/Auth'
 import Todo from './pages/Todo'
@@ -16,24 +16,27 @@ const App = () => {
     <div id='master' style={{background: color}}>
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Layout/>}>
+                <Route 
+                exact path='/' 
+                element={
+                    <ColorContext.Provider value={changeColor}>
+                        <Auth 
+                        changeColor={changeColor}/>
+                    </ColorContext.Provider>
+                }/>
 
-                    <Route index element={
-                            <ColorContext.Provider value={changeColor}>
-                                <Auth 
-                                changeColor={changeColor}/>
-                            </ColorContext.Provider>
-                    }/>
+                <Route 
+                path='task-manager' 
+                element={
+                    <ColorContext.Provider value={changeColor}>
+                        <Todo 
+                        changeColor={changeColor}/>
+                    </ColorContext.Provider>}/>
 
-                    <Route path='task-manager' element={
-                            <ColorContext.Provider value={changeColor}>
-                                <Todo 
-                                changeColor={changeColor}/>
-                            </ColorContext.Provider>}/>
+                <Route 
+                path='*'
+                element={<NoPage/>}/>
 
-                    <Route path='*' element={<NoPage/>}/>
-
-                </Route>
             </Routes>
         </BrowserRouter>
     </div>
