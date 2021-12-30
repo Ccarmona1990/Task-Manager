@@ -7,9 +7,6 @@ body {
   min-height: 100vh;
 }
 
-.container {
-  @include center();
-}
 
 .tasksContainer {
   justify-content: center;
@@ -194,4 +191,14 @@ nav {
   top: -30px;
   right: -20px;
   border-radius: 0.5rem;
+}
+
+.social {
+  a{
+    width: 100%;
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    background: map-get($map: $primary-blues, $key: 'b4');
+  }
 }
