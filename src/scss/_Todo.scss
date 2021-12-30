@@ -5,8 +5,12 @@ body {
 
 #master {
   min-height: 100vh;
+  background-size: cover;
 }
 
+#prime {
+  padding: 1rem;
+}
 
 .tasksContainer {
   justify-content: center;
@@ -64,9 +68,9 @@ nav {
   padding: 1rem 5rem;
   div {
     display: flex;
+    place-items: inherit;
   }
   h1 {
-    margin: 0px 1rem;
     font-family: map-get($map: $primary-fonts, $key: "f3");
     color: rgb(63, 94, 251);
     font-size: 3rem;
@@ -124,7 +128,7 @@ nav {
   height: 57px;
 }
 
-#checkbox {
+.customCheckbox {
   margin: 1rem;
   position: absolute;
   top: 0;
@@ -194,11 +198,12 @@ nav {
 }
 
 .social {
-  a{
+  a {
     width: 100%;
     display: block;
     border: 1px solid rgba(255, 255, 255, 0.4);
     color: #fff;
-    background: map-get($map: $primary-blues, $key: 'b4');
+    background: map-get($map: $primary-blues, $key: "b4");
   }
 }
+

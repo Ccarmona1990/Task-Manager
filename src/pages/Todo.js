@@ -33,11 +33,13 @@ const Todo = () => {
         }
         fetchData()
         return ()=>{
+            fetchData()
         }
     },[])
 
     return (
-        <>
+        <article id='prime'>
+        
         <header>
             <NavBar/>
         </header>
@@ -67,7 +69,8 @@ const Todo = () => {
             dispatch={dispatch}
             setTask={setTask}/> 
             </main>
-        </>
+
+        </article>
     )
 }
 

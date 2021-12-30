@@ -11,4 +11,5 @@ h6 {
   color: map-get($map: $heading-grey, $key: "g1");
   font-family: map-get($map: $primary-fonts, $key: "f1"), sans-serif;
   font-weight: 700;
+  margin: 0px 0px;
 }

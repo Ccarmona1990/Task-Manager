@@ -29,6 +29,7 @@ const NewTask = ({state, dispatch, setTask}) => {
     const toggleChecked= async (id, username)=>{
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
+        console.log(currentCheckbox);
 
         if(currentCheckbox.checked){
             currentTaskToEdit.className += ' completedTask ';
@@ -65,13 +66,13 @@ const NewTask = ({state, dispatch, setTask}) => {
                         <aside className='ntSection1'>
                             <input type='checkbox'
                             name={task}
-                            id='checkbox'
+                            className='customCheckbox'
                             onClick={()=>toggleChecked(id, username)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
-                                <h4>{task}</h4>
-                                <h6>{timeStamp}</h6>
+                                <h5>{task}</h5>
+                                <p className='mb-0'>{timeStamp}</p>
                             </div>
                         </aside>
                         <aside className='nTaskBtnContainer'>

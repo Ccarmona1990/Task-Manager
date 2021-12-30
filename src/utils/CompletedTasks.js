@@ -65,14 +65,14 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
                         <aside className='ntSection1'>
                             <input type='checkbox' 
                             name={task}
-                            id='checkbox'
+                            className='customCheckbox '
                             defaultChecked='true'
                             onClick={()=>toggleChecked(id, username)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
-                                <h4 className='completedTask'>{task}</h4>
-                                <h6>{timeStamp}</h6>
+                                <h5 className='completedTask'>{task}</h5>
+                                <p className='mb-0'>{timeStamp}</p>
                             </div>
                         </aside>
 

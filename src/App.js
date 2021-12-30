@@ -1,7 +1,5 @@
 import React, {useState, createContext} from 'react'
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
-import Layout from './pages/Layout'
-import Auth from './pages/Auth'
 import Login from './utils/Login-v1'
 import Reg from './utils/RegistrationV1'
 import Todo from './pages/Todo'
@@ -13,15 +11,17 @@ export const ColorContext = createContext();
 const hostname = window.location.hostname;
 
 const App = () => {
-    const [color, changeColor] = useState("#fff");
+    const [color, changeColor] = useState({backgroundImage: `url(${taskImg})`, backgroundSize: 'cover'});
     //rgba(12, 12, 53, 0.911)
     document.title = hostname;
 
     return (
     <div id='master'
-    //style={{background: color}}
     className="img js-fullheight"
-    style={{backgroundImage: `url(${taskImg})`, backgroundSize: 'cover'}}>
+    style={color}
+    //backgroundSize: 'cover'
+    >
+        
         <BrowserRouter>
             <Routes>
                 

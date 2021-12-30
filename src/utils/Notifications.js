@@ -12,11 +12,9 @@ const NotificationContainer = ({state, dispatch})=>{
     })
     return (
         <div className='notificationContainer'>
-            <div className="holder">
             {state.isNotificationShowing && 
             <h3 className='notification'>
             {state.notificationMessage}</h3>}
-            </div>
         </div>
     )
 }

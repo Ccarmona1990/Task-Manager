@@ -1,9 +1,14 @@
-import React from 'react'
+import React, {useState, useContext}from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {faClipboard} from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
+import {loginAuthAPI_URL} from './initialState'
+import {AuthNotification} from './Notifications'
+import {ColorContext} from '../App'
 
 const GoogleSignIn = ()=>{
+    
     return (
         <>
         <p className="w-100 text-center">&mdash; Or Log In With &mdash;</p>
@@ -24,6 +29,38 @@ const GoogleSignIn = ()=>{
 }
 
 const LoginV1 = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [isNotificationShowing,setIsNotificationShowing] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState('');
+    const [isLogin, setIsLogin] = useState(false);
+    const changeColor = useContext(ColorContext);
+
+    const login = async (e) =>{
+        e.preventDefault();
+        
+        setIsNotificationShowing(true)
+        try {
+            const {data: {success}} = await axios.post(loginAuthAPI_URL, {username, password}//, {withCredentials:true}
+            );
+            
+            localStorage.setItem('username', username);
+
+            if(success){
+                setNotificationMessage(`Welcome ${username}`);
+                
+                changeColor({backgroundColor: '#282c34'})
+                setTimeout(() => {
+                    setIsLogin(true)
+                }, 2000);
+
+            } else if (!success){
+                setNotificationMessage(`No user found with the information provided. Please check your username or password `)
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
     return (
         <div  >
             <section className="ftco-section">
@@ -50,15 +87,33 @@ const LoginV1 = () => {
             <form action="#" className="signin-form">
                 <div className="form-group">
                     <p className='mb-0'>Username</p>
-                    <input type="text" className="form-control"  required/>
+
+                    <input 
+                    type="text" 
+                    className="form-control"  
+                    onChange={(e)=>{
+                    setUsername(e.target.value.toLowerCase())
+                    }}
+                    required/>
                 </div>
 	            <div className="form-group">
                     <p className='mb-0'>Password</p>
-                <input id="password-field" type="password" className="form-control" required/>
+                <input 
+                id="password-field" 
+                type="password" 
+                className="form-control" 
+                required
+                minLength={8}
+                onChange={(e)=>{
+                    setPassword(e.target.value.toLowerCase())
+                }}/>
                 <span toggle="#password-field" className="fa fa-fw fa-eye field-icon toggle-password"></span>
 	            </div>
 	            <div className="form-group">
-	            	<button type="submit" className="form-control btn btn-primary submit px-3">Log In</button>
+	            	<button 
+                    type="button" 
+                    className="form-control btn btn-primary submit px-3"
+                    onClick={login }>Log In</button>
 	            </div>
 	            
             </form>
@@ -71,8 +126,13 @@ const LoginV1 = () => {
 
 				</div>
 			</div>
+            <AuthNotification
+            isNotificationShowing={isNotificationShowing}
+            setIsNotificationShowing={setIsNotificationShowing}
+            notificationMessage={notificationMessage}/>
 		</div>
 	</section>
+    {isLogin && <Navigate to='/task-manager'></Navigate>}
         </div>
     )
 }
