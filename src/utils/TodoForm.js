@@ -16,10 +16,14 @@ const TodoForm = ({setTask, task, state, dispatch,timeStamp, setTimeStamp}) => {
         if(task && !state.isEdit){
             try {
                 const username = localStorage.getItem('username');
+                const email = localStorage.getItem('email');
+                
+                await axios.post(serverAPI_URL, {task, timeStamp, 
+                    isTaskCompleted: false, username, email})
+                
+                const credential = username ? username : email;
 
-                await axios.post(serverAPI_URL, {task, timeStamp, isTaskCompleted: false, username})
-
-                const {data: {tasks}} = await axios.get(`${serverAPI_URL}${username}`)
+                const {data: {tasks}} = await axios.get(`${serverAPI_URL}${credential}`)
 
                 dispatch({type:'ADD_TASK', payload: tasks})
             } catch (error) {

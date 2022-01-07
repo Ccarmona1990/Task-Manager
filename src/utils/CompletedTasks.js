@@ -55,7 +55,8 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
         <section className='completedTasksContainer'>
             <h2>Completed Tasks</h2>
             {state?.completedTasks?.map((cTask,i)=>{
-                const {_id: id, task,timeStamp, username} = cTask;
+                const {_id: id, task,timeStamp, email, username} = cTask;
+                const currUserName = username ? username : email;
                 return (
                     <div 
                     key={id} 
@@ -67,7 +68,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
                             name={task}
                             className='customCheckbox '
                             defaultChecked='true'
-                            onClick={()=>toggleChecked(id, username)}/>
+                            onClick={()=>toggleChecked(id, currUserName)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
@@ -92,7 +93,7 @@ const CompletedTasks = ({state, dispatch, setTask}) => {
 
                         <button 
                         className='nTaskBtn'
-                        onClick={()=>handleDelete(id, username)}
+                        onClick={()=>handleDelete(id, currUserName)}
                         onMouseEnter={()=>handleMessage(`delete${id}`)}
                         onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}

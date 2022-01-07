@@ -29,7 +29,6 @@ const NewTask = ({state, dispatch, setTask}) => {
     const toggleChecked= async (id, username)=>{
         const currentTaskToEdit = document.getElementById(id);
         const currentCheckbox= currentTaskToEdit.children[0].children[0];
-        console.log(currentCheckbox);
 
         if(currentCheckbox.checked){
             currentTaskToEdit.className += ' completedTask ';
@@ -56,7 +55,9 @@ const NewTask = ({state, dispatch, setTask}) => {
     return (
         <section className='tasksContainer'>
             {state?.tasks?.map((newTask,i)=>{
-                const {_id: id, task, timeStamp, username} = newTask;
+                const {_id: id, task, timeStamp, email, username} = newTask;
+                const currUserName = username ? username : email;
+
                 return (
                     <div 
                     key={id} 
@@ -67,7 +68,7 @@ const NewTask = ({state, dispatch, setTask}) => {
                             <input type='checkbox'
                             name={task}
                             className='customCheckbox'
-                            onClick={()=>toggleChecked(id, username)}/>
+                            onClick={()=>toggleChecked(id, currUserName)}/>
                             <div className='checkboxContainer'>
                             </div>
                             <div>
@@ -92,7 +93,7 @@ const NewTask = ({state, dispatch, setTask}) => {
 
                         <button 
                         className='nTaskBtn'
-                        onClick={()=>handleDelete(id, username)}
+                        onClick={()=>handleDelete(id, currUserName)}
                         onMouseEnter={()=>handleMessage(`delete${id}`)}
                         onMouseLeave={()=>handleMessage(`delete${id}`)}
                         ><FontAwesomeIcon icon={faTrash}

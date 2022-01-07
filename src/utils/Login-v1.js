@@ -1,11 +1,12 @@
-import React, {useState, useContext}from 'react'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React, {useState, useEffect,useContext}from 'react'
 import { Link, Navigate } from "react-router-dom";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faClipboard} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import {loginAuthAPI_URL} from './initialState'
+import {loginAuthAPI_URL, usertasksAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
 import {ColorContext} from '../App'
+import taskImg from '../images/tasksImg.jpg'
 
 const GoogleSignIn = ()=>{
     
@@ -36,6 +37,22 @@ const LoginV1 = () => {
     const [isLogin, setIsLogin] = useState(false);
     const changeColor = useContext(ColorContext);
 
+    useEffect(() => {
+        changeColor({backgroundImage: `url(${taskImg})`, backgroundSize: 'cover'})
+    }, [])
+
+    useEffect(() => {
+        return () => {
+            if(isLogin){
+                changeColor({backgroundColor: '#282c34'})
+                setUsername('')
+                setPassword('')
+                setIsNotificationShowing(false)
+                setIsLogin(false)
+            }
+        }
+    },[isLogin])
+
     const login = async (e) =>{
         e.preventDefault();
         
@@ -43,13 +60,15 @@ const LoginV1 = () => {
         try {
             const {data: {success}} = await axios.post(loginAuthAPI_URL, {username, password}//, {withCredentials:true}
             );
+            const {data: {currentUser}} = await axios.get(`${usertasksAPI_URL}${username}`)
             
-            localStorage.setItem('username', username);
+            localStorage.setItem('username', currentUser?.username);
+            localStorage.setItem('email', currentUser?.email)
 
+            
             if(success){
                 setNotificationMessage(`Welcome ${username}`);
                 
-                changeColor({backgroundColor: '#282c34'})
                 setTimeout(() => {
                     setIsLogin(true)
                 }, 2000);
@@ -61,6 +80,7 @@ const LoginV1 = () => {
             console.log(err);
         }
     }
+
     return (
         <div  >
             <section className="ftco-section">

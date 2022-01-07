@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { Link } from "react-router-dom";
+import React, {useState, useEffect} from 'react'
+import { Link, Navigate } from "react-router-dom";
 import axios from 'axios';
 import {registerAPI_URL, usertasksAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
@@ -7,28 +7,44 @@ import {AuthNotification} from './Notifications'
 
 const RegistrationV1 = () => {
     const [username, setUsername] = useState('');
-    const [emailAddress, setEmailAddress] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rePassword, setRePassword] = useState('');
     const [isNotificationShowing,setIsNotificationShowing] = useState(false);
     const [notificationMessage, setNotificationMessage] = useState('');
+    const [isSignUp, setIsSignUp] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            if(isSignUp){
+                setUsername('')
+                setEmail('')
+                setPassword('')
+                setRePassword('')
+                setIsNotificationShowing(false)
+                setIsSignUp(false)
+            }
+        }
+    }, [isSignUp])
     
     const register = async (e) =>{
         e.preventDefault();
 
-        setIsNotificationShowing(true);
-        try {
-            await axios.post(registerAPI_URL, {username, password});
-            await axios.post(usertasksAPI_URL, {username})
-            setNotificationMessage('You have successfully created your account.')
-        } catch (err) {
-            console.log(err);
-            setNotificationMessage('There was an error, please try again.')
+        if(password != rePassword){
+            setIsNotificationShowing(true);
+            setNotificationMessage('Something went wrong. Please double check your information')
+        } else if (password == rePassword){
+            try {
+                await axios.post(registerAPI_URL, {username, email, password });
+                await axios.post(usertasksAPI_URL, {username, email})
+                setIsNotificationShowing(true);
+                setNotificationMessage('You have successfully created your account.')
+                setIsSignUp(true);
+            } catch (err) {
+                console.log(err);
+                setNotificationMessage('There was an error, please try again.')
+            }
         }
-        const inputs = document.querySelectorAll('.form-control');
-        const uName = Array.from(inputs)[0];
-        const pWord = Array.from(inputs)[1];
-        uName.value = '';
-        pWord.value = '';
     }
 
     return (
@@ -64,12 +80,12 @@ const RegistrationV1 = () => {
                             placeholder="Your Email"
                             required
                             onChange={(e)=>{
-                                setEmailAddress(e.target.value.toLowerCase())
+                                setEmail(e.target.value.toLowerCase())
                                 }}/>
                         </div>
                         <div className="form-group">
                             <input 
-                            type="text" 
+                            type="password" 
                             className="form-input" 
                             name="password" 
                             id="password" 
@@ -87,15 +103,19 @@ const RegistrationV1 = () => {
                             className="form-input" name="re_password" 
                             id="re_password" 
                             placeholder="Repeat your password"
-                            required/>
+                            required
+                            onChange={(e)=>{
+                                setRePassword(e.target.value.toLowerCase())
+                            }}
+                            />
                         </div>
                         <div className="form-group">
                             <label className="label-agree-term">
                                 <input 
                                 type="checkbox" 
                                 name="agree-term" 
-                                id="agree-term" className="agree-term" />
-
+                                id="agree-term" className="agree-term" 
+                                required/>
                                 I agree all statements in  <a href="#" className="term-service">Terms of service</a></label>
                         </div>
                         <div className="form-group">
@@ -120,6 +140,7 @@ const RegistrationV1 = () => {
             setIsNotificationShowing={setIsNotificationShowing}
             notificationMessage={notificationMessage}/>
             </div>
+            {isSignUp && <Navigate to='/'/>}
         </section>
     )
 }
