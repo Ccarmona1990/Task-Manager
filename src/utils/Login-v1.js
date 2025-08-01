@@ -1,7 +1,7 @@
 import React, {useState, useEffect,useContext}from 'react'
 import { Link, Navigate } from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faClipboard} from '@fortawesome/free-solid-svg-icons'
+import {faClipboard, faHome} from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import {loginAuthAPI_URL, usertasksAPI_URL} from './initialState'
 import {AuthNotification} from './Notifications'
@@ -95,7 +95,14 @@ const LoginV1 = () => {
                 icon={faClipboard} className='fontawesome' size='5x' color='lightblue'>
                 </FontAwesomeIcon>
 					<h2 className="heading-section" >Task Manager</h2>
+
+                    <a href="https://mylearningprojects.netlify.app/" >
+                        <FontAwesomeIcon className='mx-3' icon={faHome} size='2x'> 
+                        </FontAwesomeIcon>
+                        </a> 
 				</div>
+
+                
 
 			</div>
 
